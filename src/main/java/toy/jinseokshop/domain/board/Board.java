@@ -24,8 +24,8 @@ public class Board {
     private LocalDateTime createdDate;
     private LocalDateTime updateDate;
 
-//    @ManyToOne
-//    @JoinColumn(name = "MEMBER_ID")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
 }
