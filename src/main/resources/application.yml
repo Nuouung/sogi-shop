@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/jinseokshop
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  logging:
+    level:
+      org.hibernate.SQL: debug
+      org.hibernate.type: trace
+
+# 스프링 부트 메시지 설정 추가
+  messages:
+    basename: errors
+
+# 세션 생성시 세션 value가 쿼리파라미터로 출력되는 것을 방지
+server:
+  servlet:
+    session:
+      tracking-modes: cookie

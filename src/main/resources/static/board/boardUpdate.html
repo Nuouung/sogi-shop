@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>연습용 사이트</title>
+        <link rel="stylesheet" href="../css/style.css"></link>
+    </head>
+    <body>
+        <header>
+            <div><a href="index.html">진석샵</a></div>
+            <ul class="header_menu">
+                <li><a>게시판</a></li>
+                <li><a>상품목록</a></li>
+            </ul>
+            <ul class="header_usermenu">
+                <li><a>회원가입</a></li>
+                <li><a>로그인</a></li>
+            </ul>
+        </header>
+        <main>
+          <section>
+            <form action="boardUpdate.html" method="post">
+              <label>번호</label><input name="boardId" readonly>
+              <label>제목</label><input name="subject">
+              <label>내용</label><textarea name="contents"></textarea>
+              <label>작성자</label><input name="writer" readonly>
+              <button class="form_button" type="submit">완료</button>
+            </form>
+            <button class="form_button" onclick="location.href='boardList.html'">취소</button>
+          </section>
+        </main>
+    </body>
+</html>

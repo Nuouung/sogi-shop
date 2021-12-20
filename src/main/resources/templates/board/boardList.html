@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>연습용 사이트</title>
+    <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"></link>
+</head>
+<body>
+<header th:replace="~{fragment/header-login :: header}"></header>
+        <main>
+          <section>
+            <button class="writeButton" onclick="location.href='boardWriteForm.html'" th:onclick="|location.href='@{/board/write}'|">글쓰기</button>
+            <table>
+              <thead>
+                <tr>
+                  <td>번호</td>
+                  <td>제목</td>
+                  <td>작성자</td>
+                  <td>작성일</td>
+                  <td>조회수</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="page : ${boardList}">
+                  <td><a href="boardDetail.html" th:href="@{/board/page/{boardId}(boardId=${page.boardId})}" th:text="${page.boardId}">1</a></td>
+                  <td><a href="boardDetail.html" th:href="@{/board/page/{boardId}(boardId=${page.boardId})}" th:text="${page.title}">테스트로 글을 써봐요~</a></td>
+                  <td th:text="${page.writer}">밤새는 시인</td>
+                  <td th:text="${page.createdDate}">21/11/13</td>
+                  <td th:text="${page.readCount}">34</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </main>
+    </body>
+</html>

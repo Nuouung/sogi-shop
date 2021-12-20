@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>연습용 사이트</title>
+        <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"></link>
+    </head>
+    <body>
+    <header th:replace="~{fragment/header-login :: header}"></header>
+    <main>
+          <section>
+            <button class="writeButton" onclick="location.href='itemWriteForm.html'">상품등록</button>
+            <table>
+              <thead>
+                <tr>
+                  <td>번호</td>
+                  <td>상품명</td>
+                  <td>가격</td>
+                  <td>판매자</td>
+                  <td>잔여수량</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="itemDetail.html">1</a></td>
+                  <td><a href="itemDetail.html">싱싱한 물만두</a></td>
+                  <td>1,500</td>
+                  <td>고기잡이30년</td>
+                  <td>34</td>
+                </tr>
+                <tr>
+                  <td><a href="itemDetail.html">2</a></td>
+                  <td><a href="itemDetail.html">파인애플워치</a></td>
+                  <td>275,000</td>
+                  <td>과수원주인</td>
+                  <td>9</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </section>
+        </main>
+    </body>
+</html>

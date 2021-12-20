@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>연습용 사이트</title>
+    <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"></link>
+</head>
+<body>
+<header th:replace="~{fragment/header-login :: header}"></header>
+        <main>
+          <section>
+            <form action="boardUpdate.html" th:action th:object="${board}" method="post">
+              <label>번호</label><input name="boardId" th:field="*{boardId}" readonly>
+              <label>제목</label><input name="title" th:field="*{title}">
+              <label>내용</label><textarea name="contents" th:field="*{contents}"></textarea>
+              <label>작성자</label><input name="writer" th:field="*{writer}" readonly>
+              <button class="form_button" type="submit">완료</button>
+            </form>
+            <button class="form_button" onclick="location.href='boardList.html'" th:onclick="|location.href='@{/board/page/{boardId}(boardId=${board.boardId})}'|">취소</button>
+          </section>
+        </main>
+    </body>
+</html>

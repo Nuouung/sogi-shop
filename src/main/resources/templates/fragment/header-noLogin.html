@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="header">
+    <div><a href="index.html" th:href="@{/}">진석샵</a></div>
+    <ul class="header_menu">
+        <li><a href="board/boardList.html" th:href="@{/board?page=1}">게시판</a></li>
+        <li><a href="items/itemList.html" th:href="@{/items?page=1}">상품목록</a></li>
+    </ul>
+    <ul class="header_usermenu">
+        <li><a href="member/joinForm.html" th:href="@{/join}" th:text="회원가입"></a></li>
+        <li><a href="login/login.html" th:href="@{/login}" th:text="로그인"></a></li>
+    </ul>
+</header>
+</body>
+</html>

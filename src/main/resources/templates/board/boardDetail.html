@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>연습용 사이트</title>
+    <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"></link>
+</head>
+<body>
+<header th:replace="~{fragment/header-login :: header}"></header>
+        <main>
+          <section>
+            <form th:object="${board}">
+              <label>번호</label><input name="boardId" th:field="*{boardId}" readonly>
+              <label>제목</label><input name="title" th:field="*{title}" readonly>
+                <div class="field_err" th:errors="*{title}"></div>
+              <label>내용</label><textarea name="contents" th:field="*{contents}" readonly></textarea>
+                <div class="field_err" th:errors="*{contents}"></div>
+                <label>작성자</label><input name="writer" th:field="*{writer}" readonly>
+            </form>
+              <button class="form_button" th:onclick="|location.href='@{/board/page/{boardId}/update(boardId=${board.boardId})}'|">수정하기</button>
+              <button class="form_button" onclick="location.href='boardList.html'" th:onclick="|location.href='@{/board(page=${queryParam})}'|">뒤로 가기</button>
+          </section>
+        </main>
+    </body>
+</html>

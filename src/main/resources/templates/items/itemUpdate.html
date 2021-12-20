@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>연습용 사이트</title>
+    <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"></link>
+</head>
+<body>
+<header th:replace="~{fragment/header-login :: header}"></header>
+        <main>
+          <section>
+            <form action="itemUpdate.html" method="post">
+              <label>번호</label><input name="itemId" readonly>
+              <label>상품명</label><input name="itemName">
+              <label>가격</label><input name="price">
+              <label>판매자</label><input name="seller" readonly>
+              <label>수량</label><input name="quantity">
+              <button class="form_button" type="submit">완료</button>
+            </form>
+            <button class="form_button" onclick="location.href='itemList.html'">취소</button>
+          </section>
+        </main>
+    </body>
+</html>

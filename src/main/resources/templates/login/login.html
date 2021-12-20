@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>연습용 사이트</title>
+    <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"></link>
+</head>
+<body>
+<header th:replace="~{fragment/header-noLogin :: header}"></header>
+    <main>
+          <section>
+            <form action="../index.html" th:action th:object="${loginDto}" method="post">
+              <div class="field_err" th:if="${#fields.hasGlobalErrors()}">아이디나 비밀번호가 올바르지 않습니다.</div>
+              <label>아이디</label>
+              <input type="text" name="userId">
+              <label>비밀번호</label>
+              <input type="password" name="password">
+              <button type="submit" class="form_button">로그인</button>
+            </form>
+            <button class="form_button" onclick="location.href='../index.html'" th:onclick="|location.href='@{/}'|">홈으로</button>
+          </section>
+        </main>
+    </body>
+</html>
