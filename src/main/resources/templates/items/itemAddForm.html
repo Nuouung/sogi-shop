@@ -9,13 +9,16 @@
 <header th:replace="~{fragment/header-login :: header}"></header>
         <main>
           <section>
-            <form action="itemList.html" method="post">
+            <form action="itemList.html" th:action th:object="${item}" method="post">
               <label>상품명</label>
-              <input type="text" name="itemName">
+              <input type="text" name="itemName" th:field="*{itemName}">
+                <div class="field_err" th:errors="*{itemName}"></div>
               <label>가격</label>
-              <input name="price">
+              <input name="price" th:field="*{price}">
+                <div class="field_err" th:errors="*{price}"></div>
               <label>수량</label>
-              <input name="quantity">
+              <input name="quantity" th:field="*{stockQuantity}">
+                <div class="field_err" th:errors="*{stockQuantity}"></div>
               <button class="form_button" type="submit">완료</button>
             </form>
             <button class="form_button" onclick="location.href='itemList.html'">취소</button>

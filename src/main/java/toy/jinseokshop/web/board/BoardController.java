@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import toy.jinseokshop.domain.board.Board;
 import toy.jinseokshop.domain.board.BoardRepository;
 import toy.jinseokshop.domain.board.BoardService;
+import toy.jinseokshop.web.login.SessionConst;
 import toy.jinseokshop.web.validator.BoardValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -59,13 +61,15 @@ public class BoardController {
     }
 
     @PostMapping("/write")
-    public String write(@ModelAttribute Board board, BindingResult bindingResult) {
+    public String write(@ModelAttribute Board board, BindingResult bindingResult, HttpServletRequest request) {
         boardValidator.writeValidate(board, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "/board/boardWriteForm";
         }
 
+        Object userId = request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        board.setWriter((String) userId);
         Long boardId = boardService.saveWrite(board);
         return "redirect:/board/page/" + boardId;
     }

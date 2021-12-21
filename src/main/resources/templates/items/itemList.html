@@ -9,7 +9,7 @@
     <header th:replace="~{fragment/header-login :: header}"></header>
     <main>
           <section>
-            <button class="writeButton" onclick="location.href='itemWriteForm.html'">상품등록</button>
+            <button th:if="${isSeller}" class="writeButton" onclick="location.href='itemWriteForm.html'" th:onclick="|location.href='@{/items/add}'|">상품등록</button>
             <table>
               <thead>
                 <tr>
@@ -21,19 +21,12 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><a href="itemDetail.html">1</a></td>
-                  <td><a href="itemDetail.html">싱싱한 물만두</a></td>
-                  <td>1,500</td>
-                  <td>고기잡이30년</td>
-                  <td>34</td>
-                </tr>
-                <tr>
-                  <td><a href="itemDetail.html">2</a></td>
-                  <td><a href="itemDetail.html">파인애플워치</a></td>
-                  <td>275,000</td>
-                  <td>과수원주인</td>
-                  <td>9</td>
+                <tr th:each="item : ${itemList}">
+                  <td><a href="itemDetail.html" th:href="@{/items/item/{itemId}(itemId=${item.itemId})}" th:text="${item.itemId}">1</a></td>
+                  <td><a href="itemDetail.html" th:href="@{/items/item/{itemId}(itemId=${item.itemId})}" th:text="${item.itemName}">파인애플워치</a></td>
+                  <td th:text="${item.price}">275,000</td>
+                  <td th:text="${item.member.userId}">과수원주인</td>
+                  <td th:text="${item.stockQuantity}">9</td>
                 </tr>
               </tbody>
             </table>

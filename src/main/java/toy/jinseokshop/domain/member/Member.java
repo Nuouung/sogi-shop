@@ -23,15 +23,6 @@ public class Member {
     private String sellerCheck;
     private LocalDateTime createdDate;
 
-//    @OneToMany(mappedBy = "member")
-//    private List<Board> boards = new ArrayList<>();
-//
-//    // == 연관관계 메소드 == //
-//    public void addBoards(Board board) {
-//        this.boards.add(board);
-//        board.setMember(this);
-//    }
-
     // == 비지니스 로직 == //
     public Member createMember(Member member) {
         Member newMember = new Member();
