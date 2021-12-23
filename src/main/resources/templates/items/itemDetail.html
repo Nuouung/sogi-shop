@@ -9,15 +9,16 @@
 <header th:replace="~{fragment/header-login :: header}"></header>
         <main>
           <section>
-            <form action="itemUpdate.html" method="get">
-              <label>번호</label><input name="itemId" readonly>
-              <label>상품명</label><input name="itemName" readonly>
-              <label>가격</label><input name="price" readonly>
-              <label>판매자</label><input name="seller" readonly>
-              <label>수량</label><input name="quantity" readonly>
-              <button class="form_button" type="submit">수정하기</button>
+            <form th:object="${item}">
+              <label>번호</label><input name="itemId" th:field="*{itemId}" readonly>
+              <label>상품명</label><input name="itemName" th:field="*{itemName}" readonly>
+              <label>가격</label><input name="price" th:field="*{price}" readonly>
+              <label>판매자</label><input name="seller" th:field="*{member.userId}" readonly>
+              <label>수량</label><input name="quantity" th:field="*{stockQuantity}" readonly>
             </form>
-            <button class="form_button" onclick="location.href='itemList.html'">취소</button>
+              <button class="form_button" th:onclick="|location.href='@{/items/item/{itemId}/update(itemId=${item.itemId})}'|">수정하기</button>
+              <button class="form_button" th:onclick="|location.href='@{/items/item/{itemId}/delete(itemId=${item.itemId})}'|">삭제하기</button>
+              <button class="form_button" onclick="location.href='itemList.html'" th:onclick="|location.href='@{/items(page=${queryParam})}'|">뒤로가기</button>
           </section>
         </main>
     </body>

@@ -2,7 +2,6 @@ package toy.jinseokshop.domain.board;
 
 import lombok.Getter;
 import lombok.Setter;
-import toy.jinseokshop.domain.member.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

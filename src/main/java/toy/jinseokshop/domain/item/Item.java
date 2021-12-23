@@ -18,7 +18,7 @@ public class Item {
 
     private String itemName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // 지연로딩
     @JoinColumn(name = "MEMBER_ID") // 이후 Item의 member column은 fk로 Member의 member_id column을 매핑한다
     private Member member; // 단방향 설정 <- 이후 필요시 양방향 고려할 것
 

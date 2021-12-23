@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -28,12 +29,10 @@ public class BoardService {
     /**
      * 페이징 기능
      */
-    public List<Board> getPage(int index) {
+    public Map<String, Object> getPage(int index) {
         int maxResult = BoardConst.NUMBER_PER_PAGE;
         int startPosition = (index - 1) * maxResult;
 
-        List<Board> page = boardRepository.findPage(startPosition, maxResult);
-
-        return page;
+        return boardRepository.findPage(startPosition, maxResult);
     }
 }

@@ -5,9 +5,12 @@ import org.springframework.stereotype.Repository;
 import toy.jinseokshop.domain.board.Board;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -31,11 +34,29 @@ public class BoardRepository {
                 .findAny();
     }
 
-    public List<Board> findPage(int startPosition, int maxResult) {
-        return em.createQuery("select b from Board b order by b.boardId desc", Board.class)
+    public Map<String, Object> findPage(int startPosition, int maxResult) {
+        TypedQuery<Board> queryResult = em.createQuery("select b from Board b order by b.boardId desc", Board.class);
+        List<Board> tempList = queryResult.getResultList();
+
+        // 1. 총 페이지 개수를 구하기 위해 resultList를 조작한다.
+        int totalPage = tempList.size() / maxResult;
+
+        if (tempList.size() % maxResult != 0) {
+            totalPage += 1;
+        }
+
+        // 2. 사용자가 요청한 페이지에 존재하는 게시글을 추출한다.
+        List<Board> resultList = queryResult
                 .setFirstResult(startPosition)
                 .setMaxResults(maxResult)
                 .getResultList();
+
+        // 3. 1의 결과와 2의 결과를 합쳐 map에 담고 반환
+        Map<String, Object> pageMap = new HashMap<>();
+        pageMap.put("totalPage", totalPage);
+        pageMap.put("boardList", resultList);
+
+        return pageMap;
     }
 
     // u

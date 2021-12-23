@@ -31,6 +31,13 @@
               </tbody>
             </table>
           </section>
+            <div class="list_button_container">
+                <a th:if="${page-2 gt 0}" th:href="@{/board(page=${page-2})}" th:text="${page-2}"></a>
+                <a th:if="${page-1 gt 0}" th:href="@{/board(page=${page-1})}" th:text="${page-1}"></a>
+                <a th:text="${page}"></a>
+                <a th:if="${page+1} le ${totalPage}" th:href="@{/board(page=${page+1})}" th:text="${page+1}"></a>
+                <a th:if="${page+2} le ${totalPage}" th:href="@{/board(page=${page+2})}" th:text="${page+2}"></a>
+            </div>
         </main>
     </body>
 </html>

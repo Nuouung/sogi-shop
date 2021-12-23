@@ -3,7 +3,6 @@ package toy.jinseokshop;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import toy.jinseokshop.domain.board.Board;
-import toy.jinseokshop.domain.board.BoardRepository;
 import toy.jinseokshop.domain.board.BoardService;
 import toy.jinseokshop.domain.member.Member;
 import toy.jinseokshop.domain.member.MemberRepository;

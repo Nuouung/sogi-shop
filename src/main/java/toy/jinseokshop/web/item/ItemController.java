@@ -7,13 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import toy.jinseokshop.domain.item.Item;
+import toy.jinseokshop.domain.item.ItemRepository;
 import toy.jinseokshop.domain.item.ItemService;
 import toy.jinseokshop.web.login.SessionConst;
 import toy.jinseokshop.web.validator.ItemValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/items")
@@ -22,6 +22,7 @@ import java.util.Map;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ItemRepository itemRepository;
     private final ItemValidator itemValidator;
 
     @GetMapping
@@ -62,23 +63,44 @@ public class ItemController {
     }
 
     @GetMapping("/item/{itemId}")
-    public String itemDetail(@PathVariable Long itemId) {
+    public String itemDetail(@PathVariable Long itemId, Model model, HttpServletRequest request) {
+        Item item = itemRepository.findByItemId(itemId).orElse(null);
+
+        if (item == null) {
+            return "/items?page=1";
+        }
+
+        String queryParam = getRefererQueryParameter(request);
+        model.addAttribute("item", item);
+        model.addAttribute("queryParam", queryParam);
         return "/items/itemDetail";
     }
 
     @GetMapping("/item/{itemId}/update")
-    public String itemUpdateForm(@PathVariable Long itemId) {
+    public String itemUpdateForm(@PathVariable Long itemId, Model model, HttpServletRequest request) {
+        Item item = itemRepository.findByItemId(itemId).orElse(null);
+
+        model.addAttribute("item", item);
         return "/items/itemUpdateForm";
     }
 
     @PostMapping("/item/{itemId}/update")
-    public String itemUpdate(@PathVariable Long itemId) {
+    public String itemUpdate(@PathVariable Long itemId, @ModelAttribute Item item) {
+        itemRepository.update(itemId, item);
         return "redirect:/items/item/" + itemId;
     }
 
-    @PostMapping("/item/{itemId}/delete")
+    @GetMapping("/item/{itemId}/delete")
     public String deleteItem(@PathVariable Long itemId) {
+        itemRepository.delete(itemId);
         return "redirect:/items?page=1";
     }
 
+    private String getRefererQueryParameter(HttpServletRequest request) {
+        String referer = request.getHeader("referer");
+        if (referer == null || referer.split("=").length != 2) return "1";
+
+        String[] arrayForURL = request.getHeader("referer").split("=");
+        return arrayForURL[1];
+    }
 }

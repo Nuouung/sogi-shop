@@ -12,8 +12,10 @@ import toy.jinseokshop.web.login.SessionConst;
 import toy.jinseokshop.web.validator.BoardValidator;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/board")
@@ -27,8 +29,13 @@ public class BoardController {
 
     @GetMapping
     public String toBoard(@RequestParam int page, Model model) {
-        List<Board> boardList = boardService.getPage(page);
+        Map<String, Object> pageMap = boardService.getPage(page);
+        int totalPage = (Integer) pageMap.get("totalPage");
+        List<?> boardList = new ArrayList<>((Collection<?>) pageMap.get("boardList"));
+
         model.addAttribute("boardList", boardList);
+        model.addAttribute("page", page);
+        model.addAttribute("totalPage", totalPage);
         return "/board/boardList";
     }
 
@@ -96,8 +103,6 @@ public class BoardController {
     private String getRefererQueryParameter(Model model, HttpServletRequest request) {
         String[] arrayForURL = request.getHeader("referer").split("=");
         if (arrayForURL.length == 2) return arrayForURL[1];
-
-        String firstPage = "1";
-        return firstPage;
+        return "1";
     }
 }
