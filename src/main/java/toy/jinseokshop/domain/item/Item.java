@@ -2,6 +2,7 @@ package toy.jinseokshop.domain.item;
 
 import lombok.Getter;
 import lombok.Setter;
+import toy.jinseokshop.domain.exception.NotEnoughStockException;
 import toy.jinseokshop.domain.member.Member;
 
 import javax.persistence.*;
@@ -27,5 +28,18 @@ public class Item {
 
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
+
+    // == 비지니스 로직 == //
+    /**
+     * 상품 재고 감소 로직
+     */
+    public void reduceStockQuantity(int count) {
+        int restStock = this.stockQuantity - count;
+        if (restStock < 0) {
+            throw new NotEnoughStockException("재고 수량이 부족하나이다");
+        }
+
+        this.stockQuantity = restStock;
+    }
 
 }

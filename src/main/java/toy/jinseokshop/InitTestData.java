@@ -9,14 +9,14 @@ import toy.jinseokshop.domain.member.MemberRepository;
 
 import javax.annotation.PostConstruct;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class InitTestData {
 
     private final BoardService boardService;
     private final MemberRepository memberRepository;
 
-    @PostConstruct
+//    @PostConstruct
     public void addInitData() {
         for (int i = 1; i < 51; i++) {
             Board board = new Board();
@@ -28,7 +28,7 @@ public class InitTestData {
         }
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void initMember() {
         Member member = new Member();
         member.setUserId("iAmAdmin");
