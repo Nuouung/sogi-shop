@@ -1,4 +1,4 @@
-package toy.jinseokshop.domain.Order;
+package toy.jinseokshop.domain.order;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,11 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import toy.jinseokshop.domain.item.Item;
 import toy.jinseokshop.domain.item.ItemRepository;
 import toy.jinseokshop.domain.member.Member;
-import toy.jinseokshop.domain.member.MemberRepository;
 
 import javax.persistence.EntityManager;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

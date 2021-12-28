@@ -1,4 +1,4 @@
-package toy.jinseokshop.domain.Order;
+package toy.jinseokshop.domain.order;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
