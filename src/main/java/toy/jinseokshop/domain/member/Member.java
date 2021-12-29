@@ -3,7 +3,6 @@ package toy.jinseokshop.domain.member;
 import lombok.Getter;
 import lombok.Setter;
 import toy.jinseokshop.domain.board.Board;
-import toy.jinseokshop.fileUpload.domain.Music;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,9 +17,6 @@ public class Member {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "MEMBER_ID")
     private Long id;
-
-    @OneToMany(mappedBy = "member")
-    List<Music> musicList = new ArrayList<>();
 
     private String userId;
     private String password;
