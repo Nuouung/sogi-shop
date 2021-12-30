@@ -17,6 +17,8 @@
                 <div class="field_err" th:errors="*{contents}"></div>
                 <label>작성자</label><input name="writer" th:field="*{writer}" readonly>
             </form>
+              <a th:if="${file.file}" th:href="|/attach/${board.boardId}|" th:text="${file.file.originalFileName}"></a>
+              <img th:each="img : ${file.files}" th:src="|/images/${img.file.convertedFileName}|" width="300" height="300">
               <button class="form_button" th:onclick="|location.href='@{/board/page/{boardId}/update(boardId=${board.boardId})}'|">수정하기</button>
               <button class="form_button" onclick="location.href='boardList.html'" th:onclick="|location.href='@{/board(page=${queryParam})}'|">뒤로 가기</button>
           </section>

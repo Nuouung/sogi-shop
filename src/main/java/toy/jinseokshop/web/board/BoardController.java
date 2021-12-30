@@ -1,6 +1,7 @@
 package toy.jinseokshop.web.board;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,10 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import toy.jinseokshop.domain.board.Board;
 import toy.jinseokshop.domain.board.BoardRepository;
 import toy.jinseokshop.domain.board.BoardService;
+import toy.jinseokshop.domain.file.*;
+import toy.jinseokshop.web.file.FileFormDto;
+import toy.jinseokshop.web.file.FileStorageManager;
 import toy.jinseokshop.web.login.SessionConst;
 import toy.jinseokshop.web.validator.BoardValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,10 +25,14 @@ import java.util.Map;
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
+@Slf4j
 public class BoardController {
 
     private final BoardRepository boardRepository;
     private final BoardService boardService;
+
+    private final FileStorageManager fileStorageManager;
+    private final FileService fileService;
 
     private final BoardValidator boardValidator;
 
@@ -44,6 +53,8 @@ public class BoardController {
         Board board = boardRepository.findByBoardId(boardId)
                 .orElse(null);
 
+        FileViewDto fileViewDto = fileService.findByBoardId(boardId);
+
         if (board == null) {
             return "redirect:/board";
         }
@@ -53,7 +64,12 @@ public class BoardController {
 
         String queryParam = getRefererQueryParameter(model, request);
         model.addAttribute("board", board);
+        model.addAttribute("file", fileViewDto);
         model.addAttribute("queryParam", queryParam);
+
+        for (MultipleFiles file : fileViewDto.getFiles()) {
+            System.out.println(file.getFile().getOriginalFileName());
+        }
 
         return "/board/boardDetail";
     }
@@ -68,7 +84,7 @@ public class BoardController {
     }
 
     @PostMapping("/write")
-    public String write(@ModelAttribute Board board, BindingResult bindingResult, HttpServletRequest request) {
+    public String write(@ModelAttribute Board board, BindingResult bindingResult, HttpServletRequest request, @ModelAttribute FileFormDto fileDto) throws IOException {
         boardValidator.writeValidate(board, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -77,7 +93,9 @@ public class BoardController {
 
         Object userId = request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
         board.setWriter((String) userId);
+
         Long boardId = boardService.saveWrite(board);
+        fileService.save(fileTransformationForStorage(board, fileDto));
         return "redirect:/board/page/" + boardId;
     }
 
@@ -100,9 +118,18 @@ public class BoardController {
         return "redirect:/board";
     }
 
+    private File fileTransformationForStorage(Board board, FileFormDto fileDto) throws IOException {
+        UploadFile uploadFile = fileStorageManager.store(fileDto.getFile());
+        List<UploadFile> uploadFileList = fileStorageManager.store(fileDto.getFiles());
+        return File.storeFile(board, uploadFile, uploadFileList);
+    }
+
     private String getRefererQueryParameter(Model model, HttpServletRequest request) {
-        String[] arrayForURL = request.getHeader("referer").split("=");
-        if (arrayForURL.length == 2) return arrayForURL[1];
+        String referer = request.getHeader("referer");
+        if (referer != null) {
+            String[] arrayForURL = referer.split("=");
+            if (arrayForURL.length == 2) return arrayForURL[1];
+        }
         return "1";
     }
 }
