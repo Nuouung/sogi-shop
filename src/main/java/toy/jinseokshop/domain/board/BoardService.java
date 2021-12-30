@@ -21,9 +21,7 @@ public class BoardService {
         board.setCreatedDate(LocalDateTime.now());
         board.setUpdateDate(LocalDateTime.now());
 
-        Long boardId = boardRepository.save(board);
-        return boardId;
-
+        return boardRepository.save(board);
     }
 
     /**
