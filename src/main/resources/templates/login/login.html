@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"></link>
 </head>
 <body>
-<header th:replace="~{fragment/header-noLogin :: header}"></header>
+<header th:replace="~{fragment/header :: header}"></header>
     <main>
           <section>
             <form action="../index.html" th:action th:object="${loginDto}" method="post">

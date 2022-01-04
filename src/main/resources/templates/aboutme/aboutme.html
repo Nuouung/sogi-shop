@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>연습용 사이트</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/aboutme.css">
+    </head>
+    <body>
+      <header th:replace="~{fragment/header :: header}"></header>
+        <main>
+          <h1 class="aboutme_h1">ABOUT ME</h1>
+          <section class="aboutme_container">
+            <table class="aboutme_table">
+              <tbody>
+                <tr>
+                  <td style="width: 10%;" rowspan="2"><i class="fas fa-user"></i></td>
+                  <td style="width: 40%; padding-bottom: 0;"><b>이름</b></td>
+                  <td style="width: 10%;" rowspan="2"><i class="fas fa-birthday-cake"></i></td>
+                  <td style="width: 40%; padding-bottom: 0;"><b>생년월일</b></td>
+                </tr>
+                <tr>
+                  <td>이진석</td>
+                  <td>1994. 06. 16</td>
+                </tr>
+                <tr>
+                  <td rowspan="2"><i class="fas fa-envelope"></i></td>
+                  <td style="padding-bottom: 0;"><b>이메일</b></td>
+                  <td rowspan="2"><i class="fas fa-graduation-cap"></i></td>
+                  <td style="padding-bottom: 0;"><b>학력사항</b></td>
+                </tr>
+                <tr>
+                  <td>jin6016@gmail.com</td>
+                  <td>국민대학교 한국역사학과</td>
+                </tr>
+                <tr>
+                  <td rowspan="2"><i class="fas fa-phone"></i></td>
+                  <td style="padding-bottom: 0;"><b>연락처</b></td>
+                  <td rowspan="2"><i class="fas fa-map-marker-alt"></i></td>
+                  <td style="padding-bottom: 0;"><b>주소</b></td>
+                </tr>
+                <tr>
+                  <td>010-8139-2468</td>
+                  <td>경기도 양주시</td>
+                </tr>
+              </tbody>
+              </table>
+          </section>
+          <section class="blue_container">
+            <h1 class="skill_h1">Skills</h1>
+            <table class="skill_table">
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="skill_container">
+                      <div class="skill_tag">Back-End |</div>
+                      <img src="/image/skills/java_original_logo_icon_146458.png">
+                      <img src="/image/skills/icons8-spring-logo-480.png">
+                      <img src="/image/skills/512px-Hibernate_logo_a.png">
+                      <img src="/image/skills/thymeleaf_logo_white.png">
+                      <img src="/image/skills/logo-bird-ninja.png">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="skill_container">
+                      <div class="skill_tag">Front-End |</div>
+                      <img src="/image/skills/HTML5_Logo_256.png">
+                      <img src="/image/skills/CSS-Logo-640x400.jpg">
+                      <img src="/image/skills/javascript-vector-logo-yellow-png-transparent-javascript-vector-12.png">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="skill_container">
+                      <div class="skill_tag">database |</div>
+                      <img src="/image/skills/Oracle-Logo-1995-Present-700x394.png">
+                      <img src="/image/skills/logo-mysql-170x115.png">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="skill_container">
+                      <div style="width:250px; font-weight: bold;">deployment & version control |</div>
+                      <img src="/image/skills/AWS-logo-2-400x300.webp">
+                      <img src="/image/skills/Git-Logo-1788C.png">
+                      <img src="/image/skills/github.png">
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section class="blueeee_container">
+            <h1 class="skill_h1">Archive</h1>
+            <table class="skill_table">
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="skill_container">
+                      <div class="skill_tag">블로그</div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="skill_container">
+                      <div class="skill_tag">깃허브</div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </main>
+    </body>
+</html>

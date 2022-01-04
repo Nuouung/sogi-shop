@@ -12,21 +12,31 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class HomeController {
 
+//    @GetMapping("/")
+//    public String toHome(HttpServletRequest request, Model model) {
+//        HttpSession session = request.getSession(false);
+//        if (session == null) {
+//            return "home";
+//        }
+//
+//        String loginId = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
+//
+//        if (loginId == null) {
+//            return "home";
+//        }
+//
+//        model.addAttribute("member", loginId);
+//        return "home-login";
+//    }
+
     @GetMapping("/")
-    public String toHome(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            return "home";
-        }
+    public String indexPage() {
+        return "index";
+    }
 
-        String loginId = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
-
-        if (loginId == null) {
-            return "home";
-        }
-
-        model.addAttribute("member", loginId);
-        return "home-login";
+    @GetMapping("/main")
+    public String mainPage() {
+        return "main";
     }
 
 }

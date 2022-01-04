@@ -27,12 +27,15 @@ public class ItemController {
 
     @GetMapping
     public String toItems(@RequestParam int page, Model model, HttpServletRequest request) {
+        System.out.println("===================얍==============================");
         String loginId = (String) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
         boolean isSeller = itemService.isSeller(loginId);
+        System.out.println("=======================얍얍=======================");
 
         List<Item> itemList = itemService.getPage(page);
         model.addAttribute("itemList", itemList);
         model.addAttribute("isSeller", isSeller);
+        System.out.println("======================얍얍얍=======================");
 
         return "/items/itemList";
     }

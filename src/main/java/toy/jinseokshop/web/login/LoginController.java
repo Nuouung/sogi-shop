@@ -45,7 +45,7 @@ public class LoginController {
         HttpSession session = request.getSession(true);
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginId);
 
-        return "redirect:/"; // TODO 후에 요청 request로 이동하는 기능
+        return "redirect:/main"; // TODO 후에 요청 request로 이동하는 기능
     }
 
     @GetMapping("/logout")

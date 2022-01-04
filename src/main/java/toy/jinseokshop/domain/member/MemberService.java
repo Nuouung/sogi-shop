@@ -19,7 +19,7 @@ public class MemberService {
     public String login(String userId, String password) {
         Optional<Member> findMember = memberRepository.findByUserId(userId);
 
-        if (!findMember.isEmpty()) {
+        if (findMember.isPresent()) {
             Member member = findMember.get();
             if (member.getPassword().equals(password)) {
                 return userId;
