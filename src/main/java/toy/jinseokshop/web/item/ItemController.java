@@ -42,7 +42,7 @@ public class ItemController {
 
     @GetMapping("/add")
     public String addItemForm(Model model) {
-        model.addAttribute("item", new Item());
+//        model.addAttribute("item", new Item());
         return "/items/itemAddForm";
     }
 

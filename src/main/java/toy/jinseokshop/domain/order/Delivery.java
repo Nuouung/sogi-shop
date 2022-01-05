@@ -1,28 +1,25 @@
-package toy.jinseokshop.domain.member;
+package toy.jinseokshop.domain.order;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import toy.jinseokshop.domain.member.Address;
 
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter(AccessLevel.PRIVATE)
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Delivery {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "MEMBER_ID")
+    @Column(name = "DELIVERY_ID")
     private Long id;
-
-    private String email;
-    private String password;
 
     @Embedded
     private Address address;
 
-    private String isSeller;
-    private String memberType; // admin, guest, member
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus deliveryStatus;
 
 }

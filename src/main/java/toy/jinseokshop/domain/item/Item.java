@@ -1,31 +1,48 @@
 package toy.jinseokshop.domain.item;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import toy.jinseokshop.domain.file.File;
 import toy.jinseokshop.domain.member.Member;
+import toy.jinseokshop.domain.review.Review;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ITEM_ID")
-    private Long itemId;
+    private Long id;
 
     private String itemName;
 
-    @ManyToOne(fetch = FetchType.LAZY) // 지연로딩
-    @JoinColumn(name = "MEMBER_ID") // 이후 Item의 member column은 fk로 Member의 member_id column을 매핑한다
-    private Member member; // 단방향 설정 <- 이후 필요시 양방향 고려할 것
+    private int price;
+    private int stockQuantity;
 
-    private Integer price;
-    private Integer stockQuantity;
+    @OneToMany(mappedBy = "item")
+    private List<Review> reviews = new ArrayList<>();
 
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    @OneToMany(mappedBy = "item")
+    private List<File> files = new ArrayList<>();
 
+    private String dtype;
+
+    //==> 연관관계 메소드
+    public void addReview(Review review) {
+        reviews.add(review);
+        review.setItem(this);
+    }
+
+    public void addFile(File file) {
+        files.add(file);
+        file.setItem(this);
+    }
 }

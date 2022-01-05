@@ -1,4 +1,4 @@
-package toy.jinseokshop.web.board;
-
-public class BoardDto {
-}
+//package toy.jinseokshop.web.board;
+//
+//public class BoardDto {
+//}
