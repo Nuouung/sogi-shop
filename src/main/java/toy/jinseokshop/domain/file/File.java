@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 import toy.jinseokshop.domain.item.Item;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class File {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,5 +29,10 @@ public class File {
     //==> 연관관계 메소드
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public File(String originalFileName, String convertedFileName) {
+        this.originalFileName = originalFileName;
+        this.convertedFileName = convertedFileName;
     }
 }

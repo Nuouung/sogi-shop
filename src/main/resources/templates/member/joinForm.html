@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>연습용 사이트</title>
-    <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"></link>
+    <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
 <header th:replace="~{fragment/header :: header}"></header>
@@ -14,16 +14,20 @@
                     <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
                 </div>
                 <label>아이디</label>
-              <input type="text" name="userId" th:field="*{userId}">
-                <div class="field_err" th:errors="*{userId}"></div>
+              <input type="text" name="userId" th:field="*{email}">
+                <div class="field_err" th:errors="*{email}"></div>
               <label>비밀번호</label>
               <input type="password" th:field="*{password}">
                 <div class="field_err" th:errors="*{password}"></div>
+                <label>주소 (둘 중 하나만 입력해도 됩니당)</label>
+                <input type="text" th:field="*{addressName}">
+                <input type="text" th:field="*{roadAddressName}">
+                <div class="field_err" th:errors="*{addressName}"></div>
               <label>판매자 여부</label>
-              <input type="checkbox" name="sellerCheck">
+              <input type="checkbox" name="isSeller">
               <button type="submit" class="form_button">회원가입</button>
             </form>
-            <button class="form_button" onclick="location.href='../index.html'">홈으로</button>
+            <button class="form_button" onclick="location.href='../index.html'" th:onclick="|location.href='@{/main}'|">홈으로</button>
           </section>
         </main>
     </body>

@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>연습용 사이트</title>
-    <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"></link>
-</head>
-<body>
-<header th:replace="~{fragment/header :: header}"></header>
-        <main>
-          <section>
-            <form th:object="${item}">
-              <label>번호</label><input name="itemId" th:field="*{itemId}" readonly>
-              <label>상품명</label><input name="itemName" th:field="*{itemName}" readonly>
-              <label>가격</label><input name="price" th:field="*{price}" readonly>
-              <label>판매자</label><input name="seller" th:field="*{member.userId}" readonly>
-              <label>수량</label><input name="quantity" th:field="*{stockQuantity}" readonly>
-            </form>
-              <button class="form_button" th:onclick="|location.href='@{/items/item/{itemId}/update(itemId=${item.itemId})}'|">수정하기</button>
-              <button class="form_button" th:onclick="|location.href='@{/items/item/{itemId}/delete(itemId=${item.itemId})}'|">삭제하기</button>
-              <button class="form_button" onclick="location.href='itemList.html'" th:onclick="|location.href='@{/items(page=${queryParam})}'|">뒤로가기</button>
-          </section>
+    <head>
+        <meta charset="UTF-8">
+        <title>연습용 사이트</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap">
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/items/itemDetail.css">
+    </head>
+    <body>
+        <header th:replace="~{fragment/header :: header}"></header>
+        <main class="main_container">
+            <section class="sectionA_overview">
+              <img width="350px" height="350px">
+              <div>
+                <div>카테고리</div>
+                <div>이름</div>
+                <div>판매자 이름</div>
+                <div>별점</div>
+              </div>
+            </section>
+            <section class="sectionB_body">
+              <div class="content_area">
+                <div>내용</div>
+              </div>
+              <div class="payment_area">
+                <div>열정가격</div>
+              </div>
+            </section>
         </main>
     </body>
 </html>

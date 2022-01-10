@@ -1,16 +1,18 @@
 package toy.jinseokshop.domain.file;
 
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.mock.web.MockMultipartHttpServletRequest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import toy.jinseokshop.domain.item.Item;
+import toy.jinseokshop.web.item.ItemDto;
 
-import java.nio.charset.StandardCharsets;
+import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,17 +21,34 @@ import static org.junit.jupiter.api.Assertions.*;
 @Rollback(value = false)
 class FileTest {
 
-//    @Autowired MockMultipartFile multipartFile;
-//    @Autowired MockMultipartHttpServletRequest request;
+    @Autowired
+    EntityManager em;
+    private final ItemDto itemDto = new ItemDto();
 
-    @Test
-    void operatingTest() {
+    @BeforeEach
+    void beforeEach() {
+        ItemDto itemDto2 = new ItemDto();
+        itemDto.setItemName("책");
+        itemDto.setPrice(10000);
+        itemDto.setStockQuantity(3);
+        itemDto.setOptionA("아마 저자");
+        itemDto.setOptionB("아마 출판사");
+        itemDto.setDType("B");
+        Item item = Item.createItem(itemDto, new ArrayList<>());
+        em.persist(item);
 
+        em.flush();
+        em.clear();
     }
 
     @Test
-    void fileTest() {
-        // 실패. 어떻게 multipartFile을 가져오는지 알 수 없다.
+    void fileInsertTest() {
+        File file = new File("helloSpring.pdf", UUID.randomUUID() + ".pdf");
+        Item item = em.find(Item.class, 1L);
+        Item updateItem = Item.updateFile(item, file);
+        em.persist(file);
+        Assertions.assertThat(updateItem.getId()).isEqualTo(1L);
+        Assertions.assertThat(file.getItem().getId()).isEqualTo(1L);
     }
 
 }

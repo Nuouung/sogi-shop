@@ -86,11 +86,3 @@ textarea {
   height: 300px;
   padding: 5px 10px;
 }
-
-.form_button {
-  display: block;
-  padding: 5px;
-  width: 100px;
-  height: 30px;
-  margin: 10px 0;
-}

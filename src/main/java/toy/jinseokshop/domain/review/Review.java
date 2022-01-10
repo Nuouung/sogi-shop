@@ -22,7 +22,7 @@ public class Review {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REVIEW_ID")
+    @JoinColumn(name = "ITEM_ID")
     private Item item;
 
     private String content;

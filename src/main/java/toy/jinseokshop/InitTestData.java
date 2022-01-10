@@ -2,38 +2,44 @@ package toy.jinseokshop;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import toy.jinseokshop.domain.board.Board;
-import toy.jinseokshop.domain.board.BoardService;
+import toy.jinseokshop.domain.item.ItemService;
 import toy.jinseokshop.domain.member.Member;
 import toy.jinseokshop.domain.member.MemberRepository;
+import toy.jinseokshop.web.item.ItemDto;
+import toy.jinseokshop.web.member.MemberDto;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 
 @Component
 @RequiredArgsConstructor
 public class InitTestData {
 
-    private final BoardService boardService;
     private final MemberRepository memberRepository;
+    private final ItemService itemService;
 
-    @PostConstruct
-    public void addInitData() {
-        for (int i = 1; i < 51; i++) {
-            Board board = new Board();
-            board.setTitle("테스트 제목" + i);
-            board.setContents("테스트 내용" + i);
-            board.setWriter("아이엠 테스터");
-
-            boardService.saveWrite(board);
-        }
-    }
 
     @PostConstruct
     public void initMember() {
-        Member member = new Member();
-        member.setUserId("iAmAdmin");
-        member.setPassword("123456");
-
+        MemberDto memberDto = new MemberDto();
+        memberDto.setEmail("jinseok");
+        memberDto.setPassword("wlstjr57");
+        memberDto.setAddressName("덕계동");
+        Member member = new Member(memberDto);
         memberRepository.save(member);
+    }
+
+    @PostConstruct
+    public void initItems() {
+        ItemDto itemDto = new ItemDto();
+        itemDto.setItemName("책");
+        itemDto.setPrice(10000);
+        itemDto.setDType("B");
+        itemDto.setOptionA("AAA");
+        itemDto.setOptionB("BBB");
+        itemDto.setStockQuantity(100);
+        for (int i = 0; i < 20; i++) {
+            itemService.saveItem(itemDto, new ArrayList<>());
+        }
     }
 }

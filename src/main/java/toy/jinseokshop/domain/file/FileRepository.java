@@ -15,15 +15,9 @@ public class FileRepository {
         em.persist(file);
     }
 
-    public File findByBoardId(Long boardId) {
-        return em.createQuery("select f from File f where f.board.boardId = :boardId", File.class)
-                .setParameter("boardId", boardId)
-                .getSingleResult();
-    }
-
-    public File findByBoardIdWithJoin(Long boardId) {
-        return em.createQuery("select f from File f join fetch f.files where f.board.boardId = :boardId", File.class)
-                .setParameter("boardId", boardId)
+    public File findByItemId(Long itemId) {
+        return em.createQuery("select f from File f where f.item.id = :itemId", File.class)
+                .setParameter("itemId", itemId)
                 .getSingleResult();
     }
 }

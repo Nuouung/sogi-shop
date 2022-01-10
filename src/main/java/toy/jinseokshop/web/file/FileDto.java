@@ -7,9 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Getter @Setter
-public class FileFormDto {
+public class FileDto {
 
-    private MultipartFile file;
     private List<MultipartFile> files;
 
 }

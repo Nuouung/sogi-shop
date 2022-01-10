@@ -1,28 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>연습용 사이트</title>
-    <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"></link>
-</head>
-<body>
-<header th:replace="~{fragment/header :: header}"></header>
+    <head>
+        <meta charset="UTF-8">
+        <title>연습용 사이트</title>
+        <link
+            rel="stylesheet"
+            href="../../static/css/style.css"
+            th:href="@{/css/style.css}">
+        <link
+            rel="stylesheet"
+            href="../../static/css/items/itemAddForm.css"
+            th:href="@{/css/items/itemAddForm.css}">
+    </head>
+    <script
+        defer="defer"
+        src="../../static/js/item/itemAddForm.js"
+        th:src="@{/js/item/itemAddForm.js}"></script>
+    <body>
+        <header th:replace="~{fragment/header :: header}"></header>
         <main>
-          <section>
-            <form action="itemList.html" th:action th:object="${item}" method="post">
-              <label>상품명</label>
-              <input type="text" name="itemName" th:field="*{itemName}">
-                <div class="field_err" th:errors="*{itemName}"></div>
-              <label>가격</label>
-              <input name="price" th:field="*{price}">
-                <div class="field_err" th:errors="*{price}"></div>
-              <label>수량</label>
-              <input name="quantity" th:field="*{stockQuantity}">
-                <div class="field_err" th:errors="*{stockQuantity}"></div>
-              <button class="form_button" type="submit">완료</button>
-            </form>
-            <button class="form_button" onclick="location.href='itemList.html'">취소</button>
-          </section>
+            <section>
+                <form action="itemList.html" th:action th:object="${item}" method="post" enctype="multipart/form-data">
+                    <label>상품명</label>
+                    <input type="text" name="itemName" th:field="*{itemName}">
+                    <div class="field_err" th:errors="*{itemName}"></div>
+                    <label>가격</label>
+                    <input name="price" th:field="*{price}">
+                    <div class="field_err" th:errors="*{price}"></div>
+                    <label>수량</label>
+                    <input name="quantity" th:field="*{stockQuantity}">
+                    <div class="field_err" th:errors="*{stockQuantity}"></div>
+                    <div>
+                        <input type="radio" name="DType" id="B" value="B">
+                        <label for="B">책</label>
+                        <input type="radio" name="DType" id="L" value="L">
+                        <label for="L">강의</label>
+                    </div>
+                    <div id="optionForBook" class="hidden">
+                        <label>저자</label>
+                        <input class="inputB" type="text" name="optionA" th:field="*{optionA}">
+                        <label>출판사</label>
+                        <input class="inputB" type="text" name="optionB" th:field="*{optionB}">
+                    </div>
+                    <div id="optionForLecture" class="hidden">
+                        <label>강사</label>
+                        <input class="inputL" type="text" name="optionA" th:field="*{optionA}">
+                        <label>강의제공처</label>
+                        <input class="inputL" type="text" name="optionB" th:field="*{optionB}">
+                    </div>
+                    <label>첨부 사진</label>
+                    <input type="file" multiple="multiple" name="files">
+                    <button class="form_button" type="submit">완료</button>
+                </form>
+                <button class="form_button" onclick="location.href='itemList.html'">취소</button>
+            </section>
         </main>
     </body>
 </html>
