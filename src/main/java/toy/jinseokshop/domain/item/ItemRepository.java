@@ -25,6 +25,12 @@ public class ItemRepository {
         return Optional.ofNullable(em.find(Item.class, id));
     }
 
+    public Optional<Item> findByItemName(String itemName) {
+        return em.createQuery("select i from Item i where i.itemName = :itemName", Item.class)
+                .setParameter("itemName", itemName)
+                .getResultStream().findAny();
+    }
+
     public Map<String, Object> findPage(int startPosition, int maxResult) {
         // TODO 이름, 가격, 리뷰 수, 별점 찍어줘야 함. (아직 리뷰가 개발되지 않았기 때문에)
         TypedQuery<Item> itemTypedQuery = em.createQuery("select i from Item i order by i.id desc", Item.class);
