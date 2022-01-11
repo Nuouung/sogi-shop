@@ -3,12 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <title>연습용 사이트</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap">
         <link rel="stylesheet" href="../css/style.css"></link>
+        <link rel="stylesheet" href="../css/items/itemList.css">
     </head>
     <body>
         <header>
-            <div><a href="../index.html">진석샵</a></div>
+            <div><a href="../index.html">진석샵(가제)</a></div>
             <ul class="header_menu">
+                <li><a>About me</a></li>
                 <li><a>게시판</a></li>
                 <li><a>상품목록</a></li>
             </ul>
@@ -17,38 +20,77 @@
                 <li><a>로그인</a></li>
             </ul>
         </header>
-        <main>
-          <section>
-            <button class="writeButton" onclick="location.href='itemWriteForm.html'">상품등록</button>
-            <table>
-              <thead>
-                <tr>
-                  <td>번호</td>
-                  <td>상품명</td>
-                  <td>가격</td>
-                  <td>판매자</td>
-                  <td>잔여수량</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><a href="itemDetail.html">1</a></td>
-                  <td><a href="itemDetail.html">싱싱한 물만두</a></td>
-                  <td>1,500</td>
-                  <td>고기잡이30년</td>
-                  <td>34</td>
-                </tr>
-                <tr>
-                  <td><a href="itemDetail.html">2</a></td>
-                  <td><a href="itemDetail.html">파인애플워치</a></td>
-                  <td>275,000</td>
-                  <td>과수원주인</td>
-                  <td>9</td>
-                </tr>
-              </tbody>
-            </table>
-
-          </section>
+        <main class="main_container">
+            <nav class="category_container">
+              <div>전체 상품</div>
+              <div>책</div>
+              <div>강의</div>
+            </nav>
+            <section class="items_container">
+              <div class="item_card">
+                <img width="250px" height="250px">
+                <div>이름</div>
+                <div>별점</div>
+                <div>열정가격</div>
+                <div>리뷰 수</div>
+              </div>
+              <div class="item_card">
+                <img width="250px" height="250px">
+                <div>이름</div>
+                <div>별점</div>
+                <div>열정가격</div>
+                <div>리뷰 수</div>
+              </div>
+              <div class="item_card">
+                <img width="250px" height="250px">
+                <div>이름</div>
+                <div>별점</div>
+                <div>열정가격</div>
+                <div>리뷰 수</div>
+              </div>
+              <div class="item_card">
+                <img width="250px" height="250px">
+                <div>이름</div>
+                <div>별점</div>
+                <div>열정가격</div>
+                <div>리뷰 수</div>
+              </div>
+              <div class="item_card">
+                <img width="250px" height="250px">
+                <div>이름</div>
+                <div>별점</div>
+                <div>열정가격</div>
+                <div>리뷰 수</div>
+              </div>
+              <div class="item_card">
+                <img width="250px" height="250px">
+                <div>이름</div>
+                <div>별점</div>
+                <div>열정가격</div>
+                <div>리뷰 수</div>
+              </div>
+              <div class="item_card">
+                <img width="250px" height="250px">
+                <div>이름</div>
+                <div>별점</div>
+                <div>열정가격</div>
+                <div>리뷰 수</div>
+              </div>
+              <div class="item_card">
+                <img width="250px" height="250px">
+                <div>이름</div>
+                <div>별점</div>
+                <div>열정가격</div>
+                <div>리뷰 수</div>
+              </div>
+              <div class="item_card">
+                <img width="250px" height="250px">
+                <div>이름</div>
+                <div>별점</div>
+                <div>열정가격</div>
+                <div>리뷰 수</div>
+              </div>
+            </section>
         </main>
     </body>
 </html>

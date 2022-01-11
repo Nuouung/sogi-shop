@@ -10,7 +10,8 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import toy.jinseokshop.domain.member.MemberService;
+import org.springframework.web.multipart.MultipartFile;
+import toy.jinseokshop.domain.login.LoginService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,32 +21,32 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 public class LoginController {
 
-    private final MemberService memberService;
+    private final LoginService loginService;
 
     @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("loginDto", new LoginDto());
-        return "/login/login";
+        return "/login/loginForm";
     }
 
     @PostMapping("/login")
     public String login(@ModelAttribute LoginDto loginDto, BindingResult bindingResult, HttpServletRequest request) {
 
-        String loginId = memberService.login(loginDto.getUserId(), loginDto.getPassword());
+        String loginEmail = loginService.login(loginDto.getEmail(), loginDto.getPassword());
 
         // 인증
-        if (!StringUtils.hasText(loginId)) {
+        if (!StringUtils.hasText(loginEmail)) {
             // 로그인 실패
             bindingResult.addError(new ObjectError("loginDto", new String[]{"아이디나 비밀번호가 올바르지 않습니다."}, new String[]{}, null));
             log.info("errors = {}", bindingResult);
-            return "/login/login";
+            return "/login/loginForm";
         }
 
         // 로그인 성공 - 인가
         HttpSession session = request.getSession(true);
-        session.setAttribute(SessionConst.LOGIN_MEMBER, loginId);
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginEmail);
 
-        return "redirect:/"; // TODO 후에 요청 request로 이동하는 기능
+        return "redirect:/main"; // TODO 후에 요청 request로 이동하는 기능
     }
 
     @GetMapping("/logout")
@@ -58,5 +59,4 @@ public class LoginController {
 
         return "redirect:/";
     }
-
 }

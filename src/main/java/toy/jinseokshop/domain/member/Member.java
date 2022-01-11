@@ -1,38 +1,36 @@
 package toy.jinseokshop.domain.member;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import toy.jinseokshop.domain.board.Board;
+import toy.jinseokshop.web.member.MemberDto;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter(AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "MEMBER_ID")
     private Long id;
 
-    private String userId;
+    private String email;
     private String password;
-    private String sellerCheck;
-    private LocalDateTime createdDate;
 
-    // == 비지니스 로직 == //
-    public Member createMember(Member member) {
-        Member newMember = new Member();
+    @Embedded
+    private Address address;
 
-        newMember.userId = member.getUserId();
-        newMember.password = member.getPassword();
-        newMember.sellerCheck = (member.getSellerCheck() == null) ? "n" : "y";
-        newMember.createdDate = LocalDateTime.now();
+    private String isSeller;
+    private String memberType; // admin, guest, member
 
-        return newMember;
+    public Member(MemberDto memberDto) {
+        this.email = memberDto.getEmail();
+        this.password = memberDto.getPassword();
+        this.address = new Address(memberDto.getAddressName(), memberDto.getRoadAddressName());
+        this.isSeller = (memberDto.getIsSeller() == null) ? "NO" : "YES";
+        this.memberType = MemberConst.MEMBER;
     }
-
 }

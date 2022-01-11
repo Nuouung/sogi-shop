@@ -2,61 +2,44 @@ package toy.jinseokshop.domain.item;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import toy.jinseokshop.domain.paging.PagingManager;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
+import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
-@Transactional
 @RequiredArgsConstructor
 public class ItemRepository {
 
     private final EntityManager em;
+    private final PagingManager<Item> pagingManager;
 
-    // c
-    public Long save(Item item) {
+    public void save(Item item) {
         em.persist(item);
-        return item.getItemId();
     }
 
-    // r
-    public Optional<Item> findByItemId(Long itemId) {
-        return em.createQuery("select i from Item i where i.itemId = :itemId", Item.class)
-                .setParameter("itemId", itemId)
-                .getResultStream()
-                .findAny();
+    public Optional<Item> findById(Long id) {
+        return Optional.ofNullable(em.find(Item.class, id));
     }
 
-    public List<Item> findPage(int startPosition, int maxResult) {
-        return em.createQuery("select i from Item i order by i.itemId desc", Item.class)
+    public Optional<Item> findByItemName(String itemName) {
+        return em.createQuery("select i from Item i where i.itemName = :itemName", Item.class)
+                .setParameter("itemName", itemName)
+                .getResultStream().findAny();
+    }
+
+    public Map<String, Object> findPage(int startPosition, int maxResult) {
+        // TODO 이름, 가격, 리뷰 수, 별점 찍어줘야 함. (아직 리뷰가 개발되지 않았기 때문에)
+        TypedQuery<Item> itemTypedQuery = em.createQuery("select i from Item i order by i.id desc", Item.class);
+        List<Item> tempList = itemTypedQuery.getResultList();
+        List<Item> resultList = itemTypedQuery
                 .setFirstResult(startPosition)
                 .setMaxResults(maxResult)
                 .getResultList();
-    }
 
-    // u
-    public void update(Long itemId, Item updateParam) {
-        Item item = findByItemId(itemId).orElse(null);
-
-        if (item == null) {
-            return;
-        }
-
-        item.setItemName(updateParam.getItemName());
-        item.setPrice(updateParam.getPrice());
-        item.setStockQuantity(updateParam.getStockQuantity());
-    }
-
-    // d
-    public void delete(Long itemId) {
-        Item item = findByItemId(itemId).orElse(null);
-
-        if (item == null) {
-            return;
-        }
-
-        em.remove(item);
+        return pagingManager.createPage(tempList, resultList);
     }
 }

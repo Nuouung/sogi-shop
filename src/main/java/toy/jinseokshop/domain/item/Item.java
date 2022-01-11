@@ -1,31 +1,83 @@
 package toy.jinseokshop.domain.item;
 
-import lombok.Getter;
-import lombok.Setter;
-import toy.jinseokshop.domain.member.Member;
+import lombok.*;
+import org.springframework.lang.Nullable;
+import org.springframework.web.multipart.MultipartFile;
+import toy.jinseokshop.domain.file.File;
+import toy.jinseokshop.domain.review.Review;
+import toy.jinseokshop.web.file.FileDto;
+import toy.jinseokshop.web.item.ItemDto;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "D_TYPE")
+@Getter @Setter(AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ITEM_ID")
-    private Long itemId;
+    private Long id;
 
     private String itemName;
 
-    @ManyToOne(fetch = FetchType.LAZY) // 지연로딩
-    @JoinColumn(name = "MEMBER_ID") // 이후 Item의 member column은 fk로 Member의 member_id column을 매핑한다
-    private Member member; // 단방향 설정 <- 이후 필요시 양방향 고려할 것
+    private int price;
+    private int stockQuantity;
 
-    private Integer price;
-    private Integer stockQuantity;
+    @OneToMany(mappedBy = "item")
+    private List<Review> reviews = new ArrayList<>();
 
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    @OneToMany(mappedBy = "item")
+    private List<File> files = new ArrayList<>();
+
+    //==> 연관관계 메소드
+    private void addReview(Review review) {
+        reviews.add(review);
+        review.setItem(this);
+    }
+
+    private void addFile(File file) {
+        files.add(file);
+        file.setItem(this);
+    }
+
+    //==> 정적 팩토리 메소드
+    public static Item createItem(ItemDto itemDto, List<File> files) {
+        Item item = storeItemDto(itemDto);
+        if (!files.isEmpty()) {
+            storeFileList(files, item);
+        }
+        return item;
+    }
+
+    public static Item updateFile(Item item, File file) {
+        item.addFile(file);
+        return item;
+    }
+
+    private static void storeFileList(List<File> files, Item item) {
+        for (File file : files) {
+            assert item != null;
+            item.addFile(file);
+        }
+    }
+
+    private static Item storeItemDto(ItemDto itemDto) {
+        Item item = new Item();
+        switch (itemDto.getDType()) {
+            case "B":
+                item = Book.createBook(itemDto.getItemName(), itemDto.getPrice(), itemDto.getStockQuantity(), itemDto.getOptionA(), itemDto.getOptionB());
+                break;
+            case "L":
+                item = Lecture.createLecture(itemDto.getItemName(), itemDto.getPrice(), itemDto.getOptionA(), itemDto.getOptionB());
+                break;
+        }
+        return item;
+    }
+
 
 }

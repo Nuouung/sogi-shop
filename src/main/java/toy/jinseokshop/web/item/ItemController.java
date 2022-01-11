@@ -4,103 +4,101 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import toy.jinseokshop.domain.file.File;
 import toy.jinseokshop.domain.item.Item;
-import toy.jinseokshop.domain.item.ItemRepository;
 import toy.jinseokshop.domain.item.ItemService;
-import toy.jinseokshop.web.login.SessionConst;
-import toy.jinseokshop.web.validator.ItemValidator;
+import toy.jinseokshop.domain.paging.PagingManager;
+import toy.jinseokshop.web.file.FileStorageManager;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/items")
+@RequestMapping("/item")
 @RequiredArgsConstructor
 @Slf4j
 public class ItemController {
 
     private final ItemService itemService;
-    private final ItemRepository itemRepository;
-    private final ItemValidator itemValidator;
+    private final PagingManager<Item> pagingManager;
+    private final FileStorageManager fileStorageManager;
 
     @GetMapping
-    public String toItems(@RequestParam int page, Model model, HttpServletRequest request) {
-        String loginId = (String) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
-        boolean isSeller = itemService.isSeller(loginId);
+    public String itemList(@RequestParam int page, Model model, HttpServletRequest request) {
+        // TODO 판매자만 판매를 할 수 있게. isSeller check 로직
 
-        List<Item> itemList = itemService.getPage(page);
-        model.addAttribute("itemList", itemList);
-        model.addAttribute("isSeller", isSeller);
+        // 쿼리파라미터로 받은 page를 바탕으로 Item 객체 리스트를 페이징 해서 뷰 단으로 띄워준다.
+        // 이 메소드 하나면 컨트롤러 단에서의 페이징 끝.
+        pagingManager.storePageToModel(itemService.getPage(page), page, model);
 
         return "/items/itemList";
     }
 
-    @GetMapping("/add")
-    public String addItemForm(Model model) {
-        model.addAttribute("item", new Item());
-        return "/items/itemAddForm";
-    }
+    @GetMapping("/detail/{id}")
+    public String itemDetail(@PathVariable Long id, Model model, HttpServletRequest request) {
+        Item foundItem = itemService.findById(id);
 
-    // TODO 검증 기능이 완벽하지 않다. 공부 하고 보완하도록 하자.
-    @PostMapping("/add")
-    public String addItem(@ModelAttribute Item item, HttpServletRequest request, BindingResult bindingResult, Model model) {
-
-        itemValidator.writeValidate(item, bindingResult);
-        String loginId = (String) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
-
-        if (bindingResult.hasErrors()) {
-            return "/items/itemAddForm";
-        }
-
-        Long result = itemService.saveOneItem(item, loginId);
-        if (result == null) {
-            return "/items/itemAddForm";
-        }
-
-        return "redirect:/items?page=1";
-    }
-
-    @GetMapping("/item/{itemId}")
-    public String itemDetail(@PathVariable Long itemId, Model model, HttpServletRequest request) {
-        Item item = itemRepository.findByItemId(itemId).orElse(null);
-
-        if (item == null) {
-            return "/items?page=1";
+        if (foundItem == null) {
+            return "redirect:/item";
         }
 
         String queryParam = getRefererQueryParameter(request);
-        model.addAttribute("item", item);
+        model.addAttribute("item", foundItem);
         model.addAttribute("queryParam", queryParam);
+
         return "/items/itemDetail";
     }
 
-    @GetMapping("/item/{itemId}/update")
-    public String itemUpdateForm(@PathVariable Long itemId, Model model, HttpServletRequest request) {
-        Item item = itemRepository.findByItemId(itemId).orElse(null);
-
-        model.addAttribute("item", item);
-        return "/items/itemUpdateForm";
+    @GetMapping("/add")
+    public String itemAddForm(Model model) {
+        model.addAttribute("item", new ItemDto());
+        return "/items/itemAddForm";
     }
 
-    @PostMapping("/item/{itemId}/update")
-    public String itemUpdate(@PathVariable Long itemId, @ModelAttribute Item item) {
-        itemRepository.update(itemId, item);
-        return "redirect:/items/item/" + itemId;
-    }
+    @PostMapping("/add")
+    public String itemAdd(@ModelAttribute(name = "item") ItemDto itemDto) throws IOException {
+        List<File> files = fileStorageManager.store(itemDto.getFiles());
 
-    @GetMapping("/item/{itemId}/delete")
-    public String deleteItem(@PathVariable Long itemId) {
-        itemRepository.delete(itemId);
-        return "redirect:/items?page=1";
+        // 자바스크립트에서 막기는 했지만 사용자가 자바스크립트를 조작해 optionA, B가 2개로 넘어올 수 있다.
+        // optionA, B가 2개로 넘어오면 서비스 장애가 날 가능성이 있으니 사전조치하자.
+        boolean maliciousApproach = maliciousClientApproachCatcher(itemDto.getOptionA(), itemDto.getOptionB());
+
+        if (maliciousApproach) {
+            return "redirect:/";
+        }
+
+        Long id = itemService.saveItem(itemDto, files);
+        return "redirect:/item/detail/" + id;
     }
 
     private String getRefererQueryParameter(HttpServletRequest request) {
         String referer = request.getHeader("referer");
-        if (referer == null || referer.split("=").length != 2) return "1";
-
-        String[] arrayForURL = request.getHeader("referer").split("=");
-        return arrayForURL[1];
+        if (referer != null) {
+            String[] arrayForURL = referer.split("=");
+            if (arrayForURL.length == 2) return arrayForURL[1];
+        }
+        return "1";
     }
+
+    private boolean maliciousClientApproachCatcher(String optionA, String optionB) {
+        int indexA = optionA.lastIndexOf(",");
+        int indexB = optionB.lastIndexOf(",");
+        int lastIndexA = optionA.length() - 1;
+        int lastIndexB = optionB.length() - 1;
+
+        // 가능한 String 형태
+        // 1. [정상 접근] xxxx,
+        // 2. [정상 접근] ,xxxx
+        // 3. [비정상 접근] xxxx,xxxx
+        if ((indexA != 0 && indexA != lastIndexA) ||
+                (indexB != 0 && indexB != lastIndexB)) {
+            log.warn("MALICIOUS APPROACH DETECTED");
+            return true;
+        }
+        return false;
+    }
+
 }
