@@ -48,9 +48,9 @@ public class ItemPagingResolver {
             ReviewListDto reviewListDto = reviewMap.get(item.getId());
             ItemListDto itemListDto = null;
             if (reviewListDto != null) {
-                itemListDto = new ItemListDto(item.getId(), item.getItemName(), item.getPrice(), reviewListDto.getStarRating(), reviewListDto.getReviewNumbers());
+                itemListDto = new ItemListDto(item.getId(), item.getItemName(), item.getPrice(), reviewListDto.getStarRating(), reviewListDto.getReviewNumbers(), item.getFiles());
             } else {
-                itemListDto = new ItemListDto(item.getId(), item.getItemName(), item.getPrice(), 0, 0L);
+                itemListDto = new ItemListDto(item.getId(), item.getItemName(), item.getPrice(), 0, 0L, item.getFiles());
             }
             itemListDtos.add(itemListDto);
         }
