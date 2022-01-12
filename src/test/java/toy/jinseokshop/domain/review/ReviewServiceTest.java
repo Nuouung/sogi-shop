@@ -13,13 +13,11 @@ import toy.jinseokshop.domain.member.Member;
 import toy.jinseokshop.domain.member.MemberRepository;
 import toy.jinseokshop.web.item.ItemDto;
 import toy.jinseokshop.web.member.MemberDto;
-import toy.jinseokshop.web.review.ReviewDto;
+import toy.jinseokshop.web.review.ReviewFormDto;
 
 import javax.persistence.EntityManager;
 
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -57,12 +55,12 @@ class ReviewServiceTest {
         // given
         Member member = memberRepository.findByEmail("member").get();
         Item item = itemRepository.findByItemName("엄청난 강의다 이 말이야").get();
-        ReviewDto reviewDto = new ReviewDto();
-        reviewDto.setContent("와 진짜 재밌다~");
-        reviewDto.setStars(9); // 1 ~ 10
+        ReviewFormDto reviewFormDto = new ReviewFormDto();
+        reviewFormDto.setContent("와 진짜 재밌다~");
+        reviewFormDto.setStars(4); // 1 ~ 5
 
         // when
-        reviewService.save(member.getEmail(), item.getId(), reviewDto);
+        reviewService.save(member.getEmail(), item.getId(), reviewFormDto);
         Review review = reviewRepository.findByItem(item).get(0);
 
         // then
@@ -76,13 +74,13 @@ class ReviewServiceTest {
 
         Item item = itemRepository.findByItemName("엄청난 강의다 이 말이야").get();
 
-        ReviewDto reviewDto = new ReviewDto();
-        reviewDto.setContent("와 진짜 재밌다~");
-        reviewDto.setStars(9); // 1 ~ 10
+        ReviewFormDto reviewFormDto = new ReviewFormDto();
+        reviewFormDto.setContent("와 진짜 재밌다~");
+        reviewFormDto.setStars(4); // 1 ~ 5
 
         // when
-        reviewService.save(member.getEmail(), -1L, reviewDto);
-        reviewService.save("이건 없을거야 얏호", item.getId(), reviewDto);
+        reviewService.save(member.getEmail(), -1L, reviewFormDto);
+        reviewService.save("이건 없을거야 얏호", item.getId(), reviewFormDto);
 
         // then
         Assertions.assertThat(reviewRepository.findByItem(item)).isEmpty();

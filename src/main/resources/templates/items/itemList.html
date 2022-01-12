@@ -17,13 +17,13 @@
             </nav>
             <section class="items_container">
               <div class="item_card" th:each="item : ${list}">
-              <a th:href="@{/item/detail/{id}(id=${item.id})}">
-                  <img width="250px" height="250px">
-              </a>
-                <div><a th:href="@{/item/detail/{id}(id=${item.id})}" th:text="${item.itemName}">이름</a></div>
-                <div>별점</div>
-                <div th:text="${item.price}">열정가격</div>
-                <div>리뷰 수</div>
+                  <a th:href="@{/item/detail/{id}(id=${item.id})}">
+                      <img width="250px" height="250px">
+                  </a>
+                    <div><a th:href="@{/item/detail/{id}(id=${item.id})}" th:text="${item.itemName}">이름</a></div>
+                    <div th:text="${item.starRating}">별점</div>
+                    <div th:text="${item.price}">열정가격</div>
+                    <div th:text="${item.reviewNumbers}">리뷰 수</div>
               </div>
             </section>
         </main>

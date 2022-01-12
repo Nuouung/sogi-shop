@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import toy.jinseokshop.domain.item.Item;
 import toy.jinseokshop.domain.member.Member;
-import toy.jinseokshop.web.review.ReviewDto;
+import toy.jinseokshop.web.review.ReviewFormDto;
 
 import javax.persistence.*;
 
@@ -36,12 +36,12 @@ public class Review {
     }
 
     //==> 정적 펙토리 메소드
-    public static Review createReview(ReviewDto reviewDto, Member member, Item item) {
+    public static Review createReview(ReviewFormDto reviewFormDto, Member member, Item item) {
         Review review = new Review();
         review.setMember(member);
         review.setItem(item);
-        review.setContent(reviewDto.getContent());
-        review.setStars(reviewDto.getStars());
+        review.setContent(reviewFormDto.getContent());
+        review.setStars(reviewFormDto.getStars());
 
         return review;
     }

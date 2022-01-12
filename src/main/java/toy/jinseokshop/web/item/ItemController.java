@@ -9,6 +9,9 @@ import toy.jinseokshop.domain.file.File;
 import toy.jinseokshop.domain.item.Item;
 import toy.jinseokshop.domain.item.ItemService;
 import toy.jinseokshop.domain.paging.PagingManager;
+import toy.jinseokshop.domain.review.Review;
+import toy.jinseokshop.domain.review.ReviewDto;
+import toy.jinseokshop.domain.review.ReviewService;
 import toy.jinseokshop.web.file.FileStorageManager;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,13 +26,13 @@ import java.util.Map;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ReviewService reviewService;
+
     private final PagingManager<Item> pagingManager;
     private final FileStorageManager fileStorageManager;
 
     @GetMapping
     public String itemList(@RequestParam int page, Model model, HttpServletRequest request) {
-        // TODO 판매자만 판매를 할 수 있게. isSeller check 로직
-
         // 쿼리파라미터로 받은 page를 바탕으로 Item 객체 리스트를 페이징 해서 뷰 단으로 띄워준다.
         // 이 메소드 하나면 컨트롤러 단에서의 페이징 끝.
         pagingManager.storePageToModel(itemService.getPage(page), page, model);
@@ -40,6 +43,7 @@ public class ItemController {
     @GetMapping("/detail/{id}")
     public String itemDetail(@PathVariable Long id, Model model, HttpServletRequest request) {
         Item foundItem = itemService.findById(id);
+        List<ReviewDto> reviewDtoList = reviewService.findByItemId(id);
 
         if (foundItem == null) {
             return "redirect:/item";
@@ -48,6 +52,7 @@ public class ItemController {
         String queryParam = getRefererQueryParameter(request);
         model.addAttribute("item", foundItem);
         model.addAttribute("queryParam", queryParam);
+        model.addAttribute("reviews", reviewDtoList);
 
         return "/items/itemDetail";
     }

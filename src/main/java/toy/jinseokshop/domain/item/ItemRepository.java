@@ -32,7 +32,6 @@ public class ItemRepository {
     }
 
     public Map<String, Object> findPage(int startPosition, int maxResult) {
-        // TODO 이름, 가격, 리뷰 수, 별점 찍어줘야 함. (아직 리뷰가 개발되지 않았기 때문에)
         TypedQuery<Item> itemTypedQuery = em.createQuery("select i from Item i order by i.id desc", Item.class);
         List<Item> tempList = itemTypedQuery.getResultList();
         List<Item> resultList = itemTypedQuery
@@ -42,4 +41,12 @@ public class ItemRepository {
 
         return pagingManager.createPage(tempList, resultList);
     }
+
+    public List<Long> findPageIds(int startPosition, int maxResult) {
+        return em.createQuery("select i.id from Item i order by i.id desc", Long.class)
+                .setFirstResult(startPosition)
+                .setMaxResults(maxResult)
+                .getResultList();
+    }
+
 }

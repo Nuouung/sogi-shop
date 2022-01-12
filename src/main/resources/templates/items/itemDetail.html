@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <title>연습용 사이트</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap">
-        <link rel="stylesheet" href="../css/style.css">
-        <link rel="stylesheet" href="../css/items/itemDetail.css">
+        <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}">
+        <link rel="stylesheet" href="../css/items/itemDetail.css" th:href="@{/css/itemDetail.css}">
     </head>
     <body>
         <header th:replace="~{fragment/header :: header}"></header>
@@ -26,6 +26,29 @@
               <div class="payment_area">
                 <div>열정가격</div>
               </div>
+            </section>
+        </main>
+        <main class="review_container">
+            <section>
+                <div>
+                    <form th:action method="post">
+                        <label>댓글 : </label>
+                        <input name="content" type="text">
+                        <select name="stars">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <button type="submit">저장</button>
+                    </form>
+                </div>
+                <div th:each="review : ${reviews}">
+                    <div th:text="${review.email}"></div>
+                    <div th:text="${review.content}"></div>
+                    <div th:text="${review.stars}"></div>
+                </div>
             </section>
         </main>
     </body>

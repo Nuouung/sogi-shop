@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.jinseokshop.domain.file.File;
 import toy.jinseokshop.domain.file.FileRepository;
+import toy.jinseokshop.domain.paging.PageConst;
 import toy.jinseokshop.domain.paging.PagingManager;
+import toy.jinseokshop.domain.review.ReviewListDto;
+import toy.jinseokshop.domain.review.ReviewRepository;
 import toy.jinseokshop.web.item.ItemDto;
 
 import java.util.*;
@@ -17,7 +20,9 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final FileRepository fileRepository;
+
     private final PagingManager<Item> pagingManager;
+    private final ItemPagingResolver itemPagingResolver;
 
     // 요구사항
     // 1. 아이템을 등록할 수 있어야 한다.
@@ -48,11 +53,11 @@ public class ItemService {
     // 3. 페이징 한 아이템 리스트를 가져올 수 있어야 한다.
     public Map<String, Object> getPage(int queryParam) {
         int[] indexes = pagingManager.getPageIndexes(queryParam);
+        Map<String, Object> itemMap = itemRepository.findPage(indexes[0], indexes[1]);
 
-        // TODO findPage에 실려 있는 Item 객체를 ItemListDto에 실어서 보내려 한다.
-        // 리뷰가 완성되지 않았으나, 이 기능은 리뷰와 강한 연결을 가지고 있기 때문에 리뷰를 완성한 후 반드시 다시 볼 것
-
-        return itemRepository.findPage(indexes[0], indexes[1]);
+        // Item과 Review 객체를 합쳐 새로운 ItemListDto List를 만들어 Map에 담는 메소드
+        // 이 과정에서 기존 Item List는 삭제된다. (ItemListDto List로 대체)
+        return itemPagingResolver.createItemListDtos(itemMap, indexes[0], indexes[1]);
     }
 
     // 4. 아이템 수정을 할 수 있어야 한다. (주의점 : 파일 추가, 파일 삭제)
