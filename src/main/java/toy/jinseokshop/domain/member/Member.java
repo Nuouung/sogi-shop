@@ -24,6 +24,7 @@ public class Member {
 
     private String email;
     private String password;
+    private int passion;
 
     @Embedded
     private Address address;
@@ -42,6 +43,7 @@ public class Member {
     public Member(MemberDto memberDto) {
         this.email = memberDto.getEmail();
         this.password = memberDto.getPassword();
+        this.passion = MemberConst.JOIN_PASSION;
         this.address = new Address(memberDto.getAddressName(), memberDto.getRoadAddressName());
         this.isSeller = (memberDto.getIsSeller() == null) ? "NO" : "YES";
         this.roles.add(Role.GUEST);
@@ -52,5 +54,10 @@ public class Member {
     //==> 연관관계 메소드
     public void addItems(Item item) {
         items.add(item);
+    }
+
+    //==> 비지니스 로직
+    public void reducePassion(int itemPrice) {
+        this.passion -= itemPrice;
     }
 }

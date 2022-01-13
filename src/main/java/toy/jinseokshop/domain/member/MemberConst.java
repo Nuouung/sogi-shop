@@ -1,7 +1,5 @@
 package toy.jinseokshop.domain.member;
 
 public interface MemberConst {
-    String ADMIN = "admin";
-    String MEMBER = "member";
-    String GUEST = "guest";
+    int JOIN_PASSION = 100000; // 회원가입 지급 금액
 }
