@@ -15,9 +15,10 @@ public class Book extends Item {
     private String publishingCompany;
 
     //==> 정적 팩토리 메소드
-    public static Book createBook(String itemName, int price, int stockQuantity, String author, String publishingCompany) {
+    public static Book createBook(String itemName, String content, int price, int stockQuantity, String author, String publishingCompany) {
         Book book = new Book();
         book.setItemName(itemName);
+        book.setContent(content);
         book.setPrice(price);
         book.setStockQuantity(stockQuantity);
         book.setAuthor(author);

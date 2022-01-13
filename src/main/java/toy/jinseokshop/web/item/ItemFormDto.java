@@ -4,14 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
+import toy.jinseokshop.domain.member.Member;
 
 import java.util.List;
 
 @Getter @Setter
 @ToString
-public class ItemDto {
+public class ItemFormDto {
 
     private String itemName;
+    private String content;
 
     private int price;
     private int stockQuantity;

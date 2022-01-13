@@ -7,17 +7,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import toy.jinseokshop.domain.file.File;
 import toy.jinseokshop.domain.item.Item;
+import toy.jinseokshop.domain.item.ItemConst;
+import toy.jinseokshop.domain.item.ItemDto;
 import toy.jinseokshop.domain.item.ItemService;
 import toy.jinseokshop.domain.paging.PagingManager;
-import toy.jinseokshop.domain.review.Review;
 import toy.jinseokshop.domain.review.ReviewDto;
 import toy.jinseokshop.domain.review.ReviewService;
 import toy.jinseokshop.web.file.FileStorageManager;
+import toy.jinseokshop.web.login.SessionConst;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/item")
@@ -42,15 +43,15 @@ public class ItemController {
 
     @GetMapping("/detail/{id}")
     public String itemDetail(@PathVariable Long id, Model model, HttpServletRequest request) {
-        Item foundItem = itemService.findById(id);
+        ItemDto itemDto = itemService.findById(id);
         List<ReviewDto> reviewDtoList = reviewService.findByItemId(id);
 
-        if (foundItem == null) {
+        if (itemDto == null) {
             return "redirect:/item";
         }
 
         String queryParam = getRefererQueryParameter(request);
-        model.addAttribute("item", foundItem);
+        model.addAttribute("item", itemDto);
         model.addAttribute("queryParam", queryParam);
         model.addAttribute("reviews", reviewDtoList);
 
@@ -59,23 +60,28 @@ public class ItemController {
 
     @GetMapping("/add")
     public String itemAddForm(Model model) {
-        model.addAttribute("item", new ItemDto());
+        model.addAttribute("item", new ItemFormDto());
         return "/items/itemAddForm";
     }
 
     @PostMapping("/add")
-    public String itemAdd(@ModelAttribute(name = "item") ItemDto itemDto) throws IOException {
-        List<File> files = fileStorageManager.store(itemDto.getFiles());
+    public String itemAdd(@ModelAttribute(name = "item") ItemFormDto itemFormDto, HttpServletRequest request) throws IOException {
+        List<File> files = fileStorageManager.store(itemFormDto.getFiles());
 
         // 자바스크립트에서 막기는 했지만 사용자가 자바스크립트를 조작해 optionA, B가 2개로 넘어올 수 있다.
         // optionA, B가 2개로 넘어오면 서비스 장애가 날 가능성이 있으니 사전조치하자.
-        boolean maliciousApproach = maliciousClientApproachCatcher(itemDto.getOptionA(), itemDto.getOptionB());
+        boolean maliciousApproach = maliciousClientApproachCatcher(itemFormDto.getOptionA(), itemFormDto.getOptionB());
 
         if (maliciousApproach) {
             return "redirect:/";
         }
 
-        Long id = itemService.saveItem(itemDto, files);
+        if (itemFormDto.getDType().equals(ItemConst.ETC)) {
+            itemFormDto.setOptionA("X");
+            itemFormDto.setOptionB("X");
+        }
+        String email = (String) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        Long id = itemService.saveItem(email, itemFormDto, files);
         return "redirect:/item/detail/" + id;
     }
 

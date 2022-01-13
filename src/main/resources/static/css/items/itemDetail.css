@@ -6,22 +6,131 @@
 .sectionA_overview {
   display: flex;
   justify-content: center;
-  background-color: blue;
+  background-color: rgba(0, 0, 0, 0.829);
+  color: white;
 
   width: 100%;
   margin: 0;
-  padding: 40px;
+  padding: 20px 0;
 }
 
-.sectionA_overview div {
+.sectionA_overview img {
+  padding-right: 90px;
+}
+
+.item_info {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
 
-  width: 400px;
-  padding-right: 20px;
+  width: 500px;
+  padding-bottom: 20px;
+  /* padding-left: 30px; */
+}
+
+.item_category {
+  margin-bottom: 7px;
+}
+
+.item_name {
+  font-size: 40px;
+  margin-bottom: 80px;
+}
+
+.item_subinfo {
+  display: flex;
+  justify-content: space-around;
+  width: 275px;
 }
 
 .sectionB_body {
   display: flex;
+  margin: 0;
+  border-bottom: 2px solid grey;
+}
+
+.content_area {
+  flex: 3 1 0;
+  padding: 40px 60px;
+  text-align: justify;
+}
+
+.payment_area {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  height: 260px;
+  border: 1px solid grey;
+  border-radius: 12px;
+  margin: 100px 40px;
+  margin-left: 0;
+
+  padding: 40px;
+  box-shadow: 1px 1px 1px rgb(179, 179, 179);
+}
+
+.item_price {
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 30px;
+}
+
+.payment_area button {
+  width: 100%;
+  margin-top: 40px;
+  height: 40px;
+  background-color: #3eb317;
+  color: white;
+  font-size: 17px;
+  border: none;
+  border-radius: 30px;
+}
+
+.payment_info {
+  /* border: 1px solid grey; */
+  width: 100%;
+
+  margin-top: 20px;
+}
+
+.review_form input {
+  width: 400px;
+}
+
+.review_form select {
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 39px;
+  width: 39px;
+}
+
+.review_form button {
+  height: 39px;
+  width: 60px;
+  border-radius: 20px;
+  background-color: inherit;
+  border: 1px solid grey;
+}
+
+.each_review {
+  margin-top: 30px;
+  display: flex;
+  width: 550px;
+  align-items: center;
+  border: 1px solid grey;
+}
+
+.review_email {
+  width: 100px;
+  padding-left: 15px;
+}
+
+.review_content {
+  width: 410px;
+  padding: 10px 0;
+}
+
+.review_star {
+  width: 40px;
+  text-align: center;
 }

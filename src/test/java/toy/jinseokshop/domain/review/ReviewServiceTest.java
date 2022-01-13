@@ -11,7 +11,7 @@ import toy.jinseokshop.domain.item.Item;
 import toy.jinseokshop.domain.item.ItemRepository;
 import toy.jinseokshop.domain.member.Member;
 import toy.jinseokshop.domain.member.MemberRepository;
-import toy.jinseokshop.web.item.ItemDto;
+import toy.jinseokshop.web.item.ItemFormDto;
 import toy.jinseokshop.web.member.MemberDto;
 import toy.jinseokshop.web.review.ReviewFormDto;
 
@@ -39,14 +39,14 @@ class ReviewServiceTest {
         em.persist(member);
 
         // item 생성
-        ItemDto itemDto = new ItemDto();
-        itemDto.setItemName("엄청난 강의다 이 말이야");
-        itemDto.setPrice(10000);
-        itemDto.setStockQuantity(10);
-        itemDto.setDType("L");
-        itemDto.setOptionA("a");
-        itemDto.setOptionB("b");
-        Item item =Item.createItem(itemDto, new ArrayList<>());
+        ItemFormDto itemFormDto = new ItemFormDto();
+        itemFormDto.setItemName("엄청난 강의다 이 말이야");
+        itemFormDto.setPrice(10000);
+        itemFormDto.setStockQuantity(10);
+        itemFormDto.setDType("L");
+        itemFormDto.setOptionA("a");
+        itemFormDto.setOptionB("b");
+        Item item =Item.createItem(new Member(), itemFormDto, new ArrayList<>());
         em.persist(item);
     }
 

@@ -5,11 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.jinseokshop.domain.file.File;
 import toy.jinseokshop.domain.file.FileRepository;
-import toy.jinseokshop.domain.paging.PageConst;
+import toy.jinseokshop.domain.member.Member;
+import toy.jinseokshop.domain.member.MemberRepository;
 import toy.jinseokshop.domain.paging.PagingManager;
-import toy.jinseokshop.domain.review.ReviewListDto;
+import toy.jinseokshop.domain.review.ReviewGroupDto;
 import toy.jinseokshop.domain.review.ReviewRepository;
-import toy.jinseokshop.web.item.ItemDto;
+import toy.jinseokshop.web.item.ItemFormDto;
 
 import java.util.*;
 
@@ -19,18 +20,23 @@ import java.util.*;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final MemberRepository memberRepository;
     private final FileRepository fileRepository;
+    private final ReviewRepository reviewRepository;
 
     private final PagingManager<Item> pagingManager;
     private final ItemPagingResolver itemPagingResolver;
 
     // 요구사항
     // 1. 아이템을 등록할 수 있어야 한다.
-    public Long saveItem(ItemDto itemDto, List<File> files) {
+    public Long saveItem(String email, ItemFormDto itemFormDto, List<File> files) {
         // xxx, 혹은 ,xxx를 xxx로 변환한다.
-        setOptions(itemDto);
+        setOptions(itemFormDto);
 
-        Item item = Item.createItem(itemDto, files);
+        // 회원 엔티티를 조회한다
+        Member member = memberRepository.findByEmail(email).orElse(null);
+
+        Item item = Item.createItem(member, itemFormDto, files);
         itemRepository.save(item);
 
         // 파일이 포함되어 있는 상태로 등록 폼이 넘어올 경우
@@ -45,9 +51,19 @@ public class ItemService {
     }
 
     // 2. 개별 아이템을 가져올 수 있어야 한다.
-    public Item findById(Long id) {
-        Optional<Item> foundItem = itemRepository.findById(id);
-        return foundItem.orElse(null);
+    public ItemDto findById(Long id) {
+        Item item = itemRepository.findById(id).orElse(null);
+        String dType = getDType(item);
+        if (item == null) {
+            return null;
+        }
+        ReviewGroupDto reviewGroupDto = reviewRepository.findOneUsingGroupBy(item.getId());
+        if (reviewGroupDto != null) {
+            // 만족도(starRating)이 소수점 6자리?까지 나올 수 있기 때문에, 소수점 2번째 자리를 반올림해주는 메소드를 두었다
+            double starRate = getStarRate(reviewGroupDto);
+            return new ItemDto(item.getMember().getEmail(), item.getId(), item.getItemName(), item.getPrice(), starRate, reviewGroupDto.getReviewNumbers(), dType, item.getFiles());
+        }
+        return new ItemDto(item.getMember().getEmail(), item.getId(), item.getItemName(),item.getPrice(), 0, 0L, dType, item.getFiles());
     }
 
     // 3. 페이징 한 아이템 리스트를 가져올 수 있어야 한다.
@@ -65,17 +81,38 @@ public class ItemService {
 
     // 5. 아이템 삭제를 할 수 있어야 한다.
 
-    private void setOptions(ItemDto itemDto) {
-        for (String s : itemDto.getOptionA().split(",")) {
+    private void setOptions(ItemFormDto itemFormDto) {
+        for (String s : itemFormDto.getOptionA().split(",")) {
             if (s.length() != 0) {
-                itemDto.setOptionA(s);
+                itemFormDto.setOptionA(s);
             }
         }
 
-        for (String s : itemDto.getOptionB().split(",")) {
+        for (String s : itemFormDto.getOptionB().split(",")) {
             if (s.length() != 0) {
-                itemDto.setOptionB(s);
+                itemFormDto.setOptionB(s);
             }
         }
+    }
+
+    private String getDType(Item item) {
+        String dType = null;
+        if (item != null) {
+            switch (item.getStockQuantity()) {
+                case ItemConst.SYMBOL_OF_LECTURE:
+                    dType = ItemConst.LECTURE;
+                    break;
+                case ItemConst.SYMBOL_OF_ETC:
+                    dType = ItemConst.ETC;
+                    break;
+                default:
+                    dType = ItemConst.BOOK;
+            }
+        }
+        return dType;
+    }
+
+    private double getStarRate(ReviewGroupDto reviewGroupDto) {
+        return Math.round(reviewGroupDto.getStarRating() * 10) / 10.0;
     }
 }

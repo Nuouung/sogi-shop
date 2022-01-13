@@ -8,15 +8,12 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import toy.jinseokshop.domain.member.Member;
 import toy.jinseokshop.domain.review.ReviewService;
-import toy.jinseokshop.web.item.ItemDto;
+import toy.jinseokshop.web.item.ItemFormDto;
 import toy.jinseokshop.web.member.MemberDto;
 import toy.jinseokshop.web.review.ReviewFormDto;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -62,14 +59,14 @@ class ItemRepositoryTest {
             em.persist(member);
 
             // item 생성
-            ItemDto itemDto = new ItemDto();
-            itemDto.setItemName("엄청난 강의다 이 말이야" + i);
-            itemDto.setPrice(10000);
-            itemDto.setStockQuantity(10);
-            itemDto.setDType("L");
-            itemDto.setOptionA("a");
-            itemDto.setOptionB("b");
-            Item item = Item.createItem(itemDto, new ArrayList<>());
+            ItemFormDto itemFormDto = new ItemFormDto();
+            itemFormDto.setItemName("엄청난 강의다 이 말이야" + i);
+            itemFormDto.setPrice(10000);
+            itemFormDto.setStockQuantity(10);
+            itemFormDto.setDType("L");
+            itemFormDto.setOptionA("a");
+            itemFormDto.setOptionB("b");
+            Item item = Item.createItem(new Member(), itemFormDto, new ArrayList<>());
             em.persist(item);
 
             for (int j = 1; j < 10; j++) {

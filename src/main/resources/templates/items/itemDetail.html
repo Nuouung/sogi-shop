@@ -4,35 +4,61 @@
         <meta charset="UTF-8">
         <title>연습용 사이트</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap">
-        <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}">
-        <link rel="stylesheet" href="../css/items/itemDetail.css" th:href="@{/css/itemDetail.css}">
+        <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}">
+        <link rel="stylesheet" href="../../static/css/items/itemDetail.css" th:href="@{/css/items/itemDetail.css}">
     </head>
     <body>
         <header th:replace="~{fragment/header :: header}"></header>
         <main class="main_container">
             <section class="sectionA_overview">
-              <img width="350px" height="350px">
-              <div>
-                <div>카테고리</div>
-                <div>이름</div>
-                <div>판매자 이름</div>
-                <div>별점</div>
+              <img width="350px" height="350px" th:if="${not #lists.isEmpty(item.files)}" th:src="@{|/images/${item.files[0].convertedFileName}|}">
+                <img width="350px" height="350px" th:if="${#lists.isEmpty(item.files)}" th:src="@{/image/noImage/noImage.png}">
+              <div class="item_info">
+                <div class="item_category" th:text="|sogi 샵 > ${item.category}|">sogi 샵 > 기타</div>
+                <div class="item_name" th:text="${item.itemName}">가내 수공업으로 한땀한땀 만들어 낸 개발 블로그</div>
+                <div class="item_subinfo">
+                  <div th:text="${item.email}">이진석</div>
+                  <div th:text="|${item.reviewNumbers}개의 리뷰|">14개의 리뷰</div>
+                  <div th:text="|${item.starRating}점의 만족도|">4.5점의 만족도</div>
+                </div>
               </div>
             </section>
             <section class="sectionB_body">
               <div class="content_area">
-                <div>내용</div>
+                <p>트고, 끝에 동력은 착목한는 것은 인생에 영원히 보라. 위하여 작고 풀이 이상의 것이다.보라, 청춘은 부패를 온갖 설레는 황금시대다. 같지 그것은 일월과 그들은 무엇을 발휘하기 시들어 이것이다. 넣는 그러므로 보배를 이상의 뜨고, 피가 위하여서. 가진 따뜻한 만물은 것이다. 그들은 기관과 청춘에서만 청춘의 듣는다. 이상 눈이 돋고, 하는 불어 원대하고, 과실이 것이다. 얼마나 그들의 청춘의 방황하여도, 황금시대의 운다. 갑 지혜는 하는 들어 주는 찾아 끓는다.
+
+                  인생에 얼마나 싹이 같지 사막이다. 일월과 위하여서, 가장 그들은 위하여서. 소금이라 인류의 그들은 그들의 때에, 운다. 얼마나 것은 날카로우나 봄날의 것이 보라. 인간은 두기 동력은 그리하였는가? 바이며, 날카로우나 별과 그들의 얼마나 풍부하게 기관과 간에 사라지지 말이다. 봄날의 무엇을 하는 유소년에게서 같으며, 그림자는 넣는 무한한 황금시대다. 사랑의 이것은 청춘 부패뿐이다. 하는 미인을 평화스러운 가치를 그들은 피다. 무엇을 용감하고 하여도 주며, 얼음과 없으면, 청춘에서만 이상의 보라.
+                  
+                  평화스러운 굳세게 있는 있는 불러 그들의 밝은 있으랴? 인류의 곧 그들의 무엇이 인도하겠다는 인생을 그리하였는가? 같지 있으며, 청춘은 사막이다. 속에 할지라도 길지 보이는 그와 실현에 넣는 뜨거운지라, 무한한 쓸쓸하랴? 열락의 불어 놀이 보내는 오직 우는 실현에 힘있다. 품고 생의 목숨을 것은 이상 있다. 착목한는 따뜻한 풀밭에 생생하며, 이성은 있는가? 있으며, 하여도 과실이 물방아 가는 얼음과 꾸며 때문이다. 작고 타오르고 인도하겠다는 과실이 얼음 같은 말이다. 위하여 피에 길지 가슴에 이는 이것이다. 끓는 같은 천하를 그들은 하는 이것은 인간은 듣기만 것이다.</p>
+                  <p>
+                    아침이 잠, 헤는 때 이름과, 쉬이 계십니다. 없이 헤는 아직 추억과 있습니다. 하나에 이름자 지나가는 마리아 옥 이네들은 가을로 거외다. 가을 무덤 위에 가슴속에 이웃 이국 거외다. 한 별 하나에 겨울이 이제 까닭입니다. 애기 별 아름다운 계집애들의 거외다. 이런 그리고 써 봄이 무성할 잔디가 어머님, 봅니다. 이름과, 아스라히 북간도에 나의 이웃 아침이 옥 위에도 계십니다. 시인의 쓸쓸함과 흙으로 별이 나는 이름과 새겨지는 거외다.
+
+별 말 불러 이웃 어머니, 까닭입니다. 이네들은 별빛이 하나에 이름과, 까닭입니다. 별 나의 보고, 가난한 풀이 언덕 아름다운 하나의 계십니다. 없이 이런 자랑처럼 있습니다. 쉬이 별 어머니 이름과, 많은 것은 지나가는 까닭입니다. 하나 딴은 프랑시스 밤을 까닭입니다. 내린 하나 잠, 이름을 있습니다. 헤일 토끼, 소학교 시인의 벌레는 이름자 봅니다. 애기 헤는 이네들은 이국 멀듯이, 덮어 별 까닭입니다. 써 하나 애기 쓸쓸함과 가을 이국 하나에 까닭입니다.
+
+위에 너무나 쉬이 속의 이런 이름자를 했던 밤이 계십니다. 다 라이너 이런 비둘기, 아직 둘 겨울이 듯합니다. 비둘기, 잠, 하나에 봅니다. 그리고 이국 계절이 별에도 북간도에 하나에 별 묻힌 거외다. 가을 별 무성할 비둘기, 토끼, 프랑시스 봅니다. 이웃 것은 밤을 거외다. 다 계집애들의 벌써 당신은 계절이 어머님, 봅니다. 파란 없이 아침이 하나에 가을로 이런 이름과, 못 봅니다. 책상을 어머니, 하나에 동경과 청춘이 소녀들의 버리었습니다. 아직 풀이 쉬이 하나에 하나에 하나 지나가는 내 하나에 봅니다. 이 아름다운 까닭이요, 하나에 별 무덤 새워 청춘이 추억과 까닭입니다.
+                  </p>
               </div>
               <div class="payment_area">
-                <div>열정가격</div>
+                <form>
+                  <div>열정가격</div>
+                  <div class="item_price" th:text="${item.price}">330,000원</div>
+                  <input type="hidden" value="330000">
+                  <button type="submit">구매하기</button>
+                  <div class="payment_info">
+                    ※ 위 결제는 실제 발생되는 결제가 아닙니다.
+                  </div>
+                  <div class="payment_info">
+                    ※ 부족한 열정은 내 정보에서 공짜로 충전이 가능합니다.
+                  </div>
+                </form>
               </div>
             </section>
         </main>
         <main class="review_container">
-            <section>
-                <div>
+            <section style="margin: 56px;">
+                <div class="review_form">
                     <form th:action method="post">
-                        <label>댓글 : </label>
+                        <label>리뷰 작성하기</label>
                         <input name="content" type="text">
                         <select name="stars">
                             <option value="1">1</option>
@@ -44,10 +70,10 @@
                         <button type="submit">저장</button>
                     </form>
                 </div>
-                <div th:each="review : ${reviews}">
-                    <div th:text="${review.email}"></div>
-                    <div th:text="${review.content}"></div>
-                    <div th:text="${review.stars}"></div>
+                <div class="each_review" th:each="review : ${reviews}">
+                    <div class="review_email" th:text="${review.email}">태연짱</div>
+                    <div class="review_content" th:text="${review.content}">비둘기, 잠, 하나에 봅니다. 그리고 이국 계절이 별에도 북간도에 하나에 별 묻힌 거외다.</div>
+                    <div class="review_star" th:text="${review.stars}">4</div>
                 </div>
             </section>
         </main>

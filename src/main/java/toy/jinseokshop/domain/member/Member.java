@@ -4,9 +4,14 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import toy.jinseokshop.domain.item.Item;
 import toy.jinseokshop.web.member.MemberDto;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter @Setter(AccessLevel.PRIVATE)
@@ -24,13 +29,28 @@ public class Member {
     private Address address;
 
     private String isSeller;
-    private String memberType; // admin, guest, member
+
+    @OneToMany(mappedBy = "member")
+    private List<Item> items = new ArrayList<>();
+
+    // member roles
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "MEMBER_ROLE", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles = new HashSet<>();
 
     public Member(MemberDto memberDto) {
         this.email = memberDto.getEmail();
         this.password = memberDto.getPassword();
         this.address = new Address(memberDto.getAddressName(), memberDto.getRoadAddressName());
         this.isSeller = (memberDto.getIsSeller() == null) ? "NO" : "YES";
-        this.memberType = MemberConst.MEMBER;
+        this.roles.add(Role.GUEST);
+        this.roles.add(Role.MEMBER);
+        this.roles.add(Role.SELLER);
+    }
+
+    //==> 연관관계 메소드
+    public void addItems(Item item) {
+        items.add(item);
     }
 }

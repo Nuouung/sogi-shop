@@ -34,9 +34,23 @@ public class ReviewRepository {
                 .getResultList();
     }
 
+    // 또한 아이템 디테일 페이지에서 필요한 메소드
+    public ReviewGroupDto findOneUsingGroupBy(Long itemId) {
+        String query = "select new toy.jinseokshop.domain.review.ReviewGroupDto" +
+                "(r.item.id, COALESCE(AVG(r.stars), 0), COALESCE(COUNT(r.item.id), 0))" +
+                " from Review r" +
+                " where r.item.id = :itemId" +
+                " group by r.item.id";
+
+        return em.createQuery(query, ReviewGroupDto.class)
+                .setParameter("itemId", itemId)
+                .getResultStream().findAny()
+                .orElse(null);
+    }
+
     // 아이템 리스트 페이지에서 필요한 메소드
-    public Map<Long, ReviewListDto> findPageWithGroupBy(List<Long> itemIds) {
-        String query = "select new toy.jinseokshop.domain.review.ReviewListDto" +
+    public Map<Long, ReviewGroupDto> findPageUsingGroupBy(List<Long> itemIds) {
+        String query = "select new toy.jinseokshop.domain.review.ReviewGroupDto" +
                 "(r.item.id, COALESCE(AVG(r.stars), 0), COALESCE(COUNT(r.item.id), 0))" +
                 " from Review r" +
                 " where r.item.id = :itemId" +
@@ -45,14 +59,14 @@ public class ReviewRepository {
         return createResultMapWithIterator(itemIds, query);
     }
 
-    private Map<Long, ReviewListDto> createResultMapWithIterator(List<Long> itemIds, String query) {
-        Map<Long, ReviewListDto> resultMap = new HashMap<>();
+    private Map<Long, ReviewGroupDto> createResultMapWithIterator(List<Long> itemIds, String query) {
+        Map<Long, ReviewGroupDto> resultMap = new HashMap<>();
         for (Long itemId : itemIds) {
             if (findOneByItemId(itemId)) {
-                ReviewListDto reviewListDto = em.createQuery(query, ReviewListDto.class)
+                ReviewGroupDto reviewGroupDto = em.createQuery(query, ReviewGroupDto.class)
                         .setParameter("itemId", itemId)
                         .getSingleResult();
-                resultMap.put(itemId, reviewListDto);
+                resultMap.put(itemId, reviewGroupDto);
             }
         }
         return resultMap;

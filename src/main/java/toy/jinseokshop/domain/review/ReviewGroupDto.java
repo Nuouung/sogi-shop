@@ -4,16 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Setter @Getter
-public class ReviewListDto {
+public class ReviewGroupDto {
 
     private Long itemId;
     private double starRating;
     private Long reviewNumbers;
 
-    public ReviewListDto() {
+    public ReviewGroupDto() {
     }
 
-    public ReviewListDto(Long itemId, double starRating, Long reviewNumbers) {
+    public ReviewGroupDto(Long itemId, double starRating, Long reviewNumbers) {
         this.itemId = itemId;
         this.starRating = starRating;
         this.reviewNumbers = reviewNumbers;

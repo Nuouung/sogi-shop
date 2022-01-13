@@ -1,12 +1,10 @@
 package toy.jinseokshop.domain.item;
 
 import lombok.*;
-import org.springframework.lang.Nullable;
-import org.springframework.web.multipart.MultipartFile;
 import toy.jinseokshop.domain.file.File;
+import toy.jinseokshop.domain.member.Member;
 import toy.jinseokshop.domain.review.Review;
-import toy.jinseokshop.web.file.FileDto;
-import toy.jinseokshop.web.item.ItemDto;
+import toy.jinseokshop.web.item.ItemFormDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,9 +22,14 @@ public class Item {
     private Long id;
 
     private String itemName;
+    private String content;
 
     private int price;
     private int stockQuantity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
     @OneToMany(mappedBy = "item")
     private List<Review> reviews = new ArrayList<>();
@@ -45,9 +48,15 @@ public class Item {
         file.setItem(this);
     }
 
+    private void setMember(Member member) {
+        this.member = member;
+        member.addItems(this);
+    }
+
     //==> 정적 팩토리 메소드
-    public static Item createItem(ItemDto itemDto, List<File> files) {
-        Item item = storeItemDto(itemDto);
+    public static Item createItem(Member member, ItemFormDto itemFormDto, List<File> files) {
+        Item item = storeItemFormDto(itemFormDto);
+        item.setMember(member);
         if (!files.isEmpty()) {
             storeFileList(files, item);
         }
@@ -66,15 +75,17 @@ public class Item {
         }
     }
 
-    private static Item storeItemDto(ItemDto itemDto) {
+    private static Item storeItemFormDto(ItemFormDto itemFormDto) {
         Item item = new Item();
-        switch (itemDto.getDType()) {
-            case "B":
-                item = Book.createBook(itemDto.getItemName(), itemDto.getPrice(), itemDto.getStockQuantity(), itemDto.getOptionA(), itemDto.getOptionB());
+        switch (itemFormDto.getDType()) {
+            case ItemConst.BOOK:
+                item = Book.createBook(itemFormDto.getItemName(), itemFormDto.getContent(), itemFormDto.getPrice(), itemFormDto.getStockQuantity(), itemFormDto.getOptionA(), itemFormDto.getOptionB());
                 break;
-            case "L":
-                item = Lecture.createLecture(itemDto.getItemName(), itemDto.getPrice(), itemDto.getOptionA(), itemDto.getOptionB());
+            case ItemConst.LECTURE:
+                item = Lecture.createLecture(itemFormDto.getItemName(), itemFormDto.getContent(), itemFormDto.getPrice(), itemFormDto.getOptionA(), itemFormDto.getOptionB());
                 break;
+            case ItemConst.ETC:
+                item = Etcetera.createEtc(itemFormDto.getItemName(), itemFormDto.getContent(), itemFormDto.getPrice());
         }
         return item;
     }

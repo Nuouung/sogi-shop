@@ -16,11 +16,12 @@ public class Lecture extends Item {
     private String platform;
 
     //==> 정적 팩토리 메소드
-    public static Lecture createLecture(String itemName, int price, String instructor, String platform) {
+    public static Lecture createLecture(String itemName, String content, int price, String instructor, String platform) {
         Lecture lecture = new Lecture();
         lecture.setItemName(itemName);
+        lecture.setContent(content);
         lecture.setPrice(price);
-        lecture.setStockQuantity(-1);
+        lecture.setStockQuantity(ItemConst.SYMBOL_OF_LECTURE);
         lecture.setInstructor(instructor);
         lecture.setPlatform(platform);
         return lecture;

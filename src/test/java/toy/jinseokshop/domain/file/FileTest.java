@@ -8,13 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import toy.jinseokshop.domain.item.Item;
-import toy.jinseokshop.web.item.ItemDto;
+import toy.jinseokshop.domain.member.Member;
+import toy.jinseokshop.web.item.ItemFormDto;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -23,18 +22,18 @@ class FileTest {
 
     @Autowired
     EntityManager em;
-    private final ItemDto itemDto = new ItemDto();
+    private final ItemFormDto itemFormDto = new ItemFormDto();
 
     @BeforeEach
     void beforeEach() {
-        ItemDto itemDto2 = new ItemDto();
-        itemDto.setItemName("책");
-        itemDto.setPrice(10000);
-        itemDto.setStockQuantity(3);
-        itemDto.setOptionA("아마 저자");
-        itemDto.setOptionB("아마 출판사");
-        itemDto.setDType("B");
-        Item item = Item.createItem(itemDto, new ArrayList<>());
+        ItemFormDto itemFormDto2 = new ItemFormDto();
+        itemFormDto.setItemName("책");
+        itemFormDto.setPrice(10000);
+        itemFormDto.setStockQuantity(3);
+        itemFormDto.setOptionA("아마 저자");
+        itemFormDto.setOptionB("아마 출판사");
+        itemFormDto.setDType("B");
+        Item item = Item.createItem(new Member(), itemFormDto, new ArrayList<>());
         em.persist(item);
 
         em.flush();

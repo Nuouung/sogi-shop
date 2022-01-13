@@ -21,7 +21,7 @@ class ItemTest {
     @Test
     void 책_테스트() {
         // given
-        Item bookA = Book.createBook("우앙책", 10000, 100, "마이티진석", "진석출판사");
+        Item bookA = Book.createBook("우앙책", "aa", 10000, 100, "마이티진석", "진석출판사");
 
         // when
         em.persist(bookA);
@@ -34,7 +34,7 @@ class ItemTest {
     @Test
     void 강의_테스트() {
         // given
-        Item lectureA = Lecture.createLecture("우앙강의", 60000, "마이티진석", "진석튜브");
+        Item lectureA = Lecture.createLecture("우앙강의", "a", 60000, "마이티진석", "진석튜브");
 
         // when
         em.persist(lectureA);

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.net.MalformedURLException;
 
 @Controller
-@RequestMapping("/image")
+@RequestMapping("/images")
 @RequiredArgsConstructor
 public class FileController {
 
