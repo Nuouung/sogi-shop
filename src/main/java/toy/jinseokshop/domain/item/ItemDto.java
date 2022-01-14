@@ -12,6 +12,7 @@ public class ItemDto {
     private String email;
     private Long id;
     private String itemName;
+    private String content;
     private int price;
     private double starRating;
     private Long reviewNumbers;
@@ -33,10 +34,11 @@ public class ItemDto {
         this.files = files;
     }
 
-    public ItemDto(String email, Long id, String itemName, int price, double starRating, Long reviewNumbers, String category, List<File> files) {
+    public ItemDto(String email, Long id, String itemName, String content, int price, double starRating, Long reviewNumbers, String category, List<File> files) {
         this.email = email;
         this.id = id;
         this.itemName = itemName;
+        this.content = content;
         this.price = price;
         this.starRating = starRating;
         this.reviewNumbers = reviewNumbers;

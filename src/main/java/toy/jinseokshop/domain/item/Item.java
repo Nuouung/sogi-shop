@@ -15,6 +15,7 @@ import java.util.List;
 @DiscriminatorColumn(name = "D_TYPE")
 @Getter @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Item {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,6 +23,7 @@ public class Item {
     private Long id;
 
     private String itemName;
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     private int price;

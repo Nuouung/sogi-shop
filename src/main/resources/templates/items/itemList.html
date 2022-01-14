@@ -4,21 +4,24 @@
         <meta charset="UTF-8">
         <title>연습용 사이트</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap">
-        <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}">
-        <link rel="stylesheet" href="../css/items/itemList.css" th:href="@{/css/items/itemList.css}">
+        <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}">
+        <link rel="stylesheet" href="../../static/css/items/itemList.css" th:href="@{/css/items/itemList.css}">
     </head>
     <body>
-        <header th:replace="~{fragment/header :: header}"></header>
+         <header th:replace="~{fragment/header :: header}"></header>
         <main class="main_container">
             <nav class="category_container">
-              <div>전체 상품</div>
-              <div>책</div>
-              <div>강의</div>
+              <div><a>전체 상품</a></div>
+              <div><a>책</a></div>
+              <div><a>강의</a></div>
+              <div><a>기타</a></div>
+              <div></div>
+              <button><a th:href="@{/item/add}">판매자 상품 등록</a></button>
             </nav>
             <section class="items_container">
               <div class="item_card" th:each="item : ${list}">
                   <a th:href="@{/item/detail/{id}(id=${item.id})}">
-                      <img width="250px" height="250px" th:if="${not #lists.isEmpty(item.files)}" th:src="@{|/images/${item.files[0].convertedFileName}|}">
+                       <img width="250px" height="250px" th:if="${not #lists.isEmpty(item.files)}" th:src="@{|/images/${item.files[0].convertedFileName}|}">
                       <img width="250px" height="250px" th:if="${#lists.isEmpty(item.files)}" th:src="@{/image/noImage/noImage.png}">
                   </a>
                     <div><a th:href="@{/item/detail/{id}(id=${item.id})}" th:text="${item.itemName}">이름</a></div>

@@ -1,6 +1,7 @@
 package toy.jinseokshop.domain.item;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.jinseokshop.domain.file.File;
@@ -61,15 +62,29 @@ public class ItemService {
         if (reviewGroupDto != null) {
             // 만족도(starRating)이 소수점 6자리?까지 나올 수 있기 때문에, 소수점 2번째 자리를 반올림해주는 메소드를 두었다
             double starRate = getStarRate(reviewGroupDto);
-            return new ItemDto(item.getMember().getEmail(), item.getId(), item.getItemName(), item.getPrice(), starRate, reviewGroupDto.getReviewNumbers(), dType, item.getFiles());
+            return new ItemDto(item.getMember().getEmail(), item.getId(), item.getItemName(), item.getContent(), item.getPrice(), starRate, reviewGroupDto.getReviewNumbers(), dType, item.getFiles());
         }
-        return new ItemDto(item.getMember().getEmail(), item.getId(), item.getItemName(),item.getPrice(), 0, 0L, dType, item.getFiles());
+        return new ItemDto(item.getMember().getEmail(), item.getId(), item.getItemName(), item.getContent(),item.getPrice(), 0, 0L, dType, item.getFiles());
     }
 
     // 3. 페이징 한 아이템 리스트를 가져올 수 있어야 한다.
-    public Map<String, Object> getPage(int queryParam) {
+    public Map<String, Object> getPage(int queryParam, String type) {
         int[] indexes = pagingManager.getPageIndexes(queryParam);
-        Map<String, Object> itemMap = itemRepository.findPage(indexes[0], indexes[1]);
+
+        Map<String, Object> itemMap = null;
+        switch (type) {
+            case "main":
+                itemMap = itemRepository.findPage(indexes[0], indexes[1]);
+                break;
+            case ItemConst.BOOK:
+                itemMap = itemRepository.findPageWhereBook(indexes[0], indexes[1]);
+                break;
+            case ItemConst.LECTURE:
+                itemMap = itemRepository.findPageWhereLecture(indexes[0], indexes[1]);
+                break;
+            case ItemConst.ETC:
+                itemMap = itemRepository.findPageWhereEtc(indexes[0], indexes[1]);
+        }
 
         // Item과 Review 객체를 합쳐 새로운 ItemListDto List를 만들어 Map에 담는 메소드
         // 이 과정에서 기존 Item List는 삭제된다. (ItemListDto List로 대체)

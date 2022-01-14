@@ -8,6 +8,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,5 +44,22 @@ class ItemTest {
         Item foundItem = em.find(Item.class, lectureA.getId());
         Assertions.assertThat(lectureA.getItemName()).isEqualTo(foundItem.getItemName());
     }
+
+    @Test
+    void 책만_가져오는_테스트() {
+        // given
+        Item bookA = Book.createBook("우앙책", "aa", 10000, 100, "마이티진석", "진석출판사");
+
+        // when
+        em.persist(bookA);
+
+        // then
+        Item foundItem = em.createQuery("select i from Item i where D_TYPE = 'B' order by i.id desc", Item.class)
+                .getResultStream().findAny().get();
+
+        System.out.println(foundItem);
+        Assertions.assertThat(bookA.getItemName()).isEqualTo(foundItem.getItemName());
+    }
+
 
 }

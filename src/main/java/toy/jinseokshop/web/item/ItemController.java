@@ -36,7 +36,16 @@ public class ItemController {
     public String itemList(@RequestParam int page, Model model, HttpServletRequest request) {
         // 쿼리파라미터로 받은 page를 바탕으로 Item 객체 리스트를 페이징 해서 뷰 단으로 띄워준다.
         // 이 메소드 하나면 컨트롤러 단에서의 페이징 끝.
-        pagingManager.storePageToModel(itemService.getPage(page), page, model);
+        pagingManager.storePageToModel(itemService.getPage(page, "main"), page, model);
+
+        return "/items/itemList";
+    }
+
+    @GetMapping("/{type}")
+    public String itemCategoryList(@RequestParam int page, @PathVariable String type, Model model, HttpServletRequest request) {
+        // 쿼리파라미터로 받은 page를 바탕으로 Item 객체 리스트를 페이징 해서 뷰 단으로 띄워준다.
+        // 이 메소드 하나면 컨트롤러 단에서의 페이징 끝.
+        pagingManager.storePageToModel(itemService.getPage(page, type), page, model);
 
         return "/items/itemList";
     }

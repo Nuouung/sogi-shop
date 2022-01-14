@@ -24,7 +24,7 @@
               </div>
             </section>
             <section class="sectionB_body">
-              <div class="content_area">
+              <div class="content_area" th:utext="${item.content}">
                 <p>트고, 끝에 동력은 착목한는 것은 인생에 영원히 보라. 위하여 작고 풀이 이상의 것이다.보라, 청춘은 부패를 온갖 설레는 황금시대다. 같지 그것은 일월과 그들은 무엇을 발휘하기 시들어 이것이다. 넣는 그러므로 보배를 이상의 뜨고, 피가 위하여서. 가진 따뜻한 만물은 것이다. 그들은 기관과 청춘에서만 청춘의 듣는다. 이상 눈이 돋고, 하는 불어 원대하고, 과실이 것이다. 얼마나 그들의 청춘의 방황하여도, 황금시대의 운다. 갑 지혜는 하는 들어 주는 찾아 끓는다.
 
                   인생에 얼마나 싹이 같지 사막이다. 일월과 위하여서, 가장 그들은 위하여서. 소금이라 인류의 그들은 그들의 때에, 운다. 얼마나 것은 날카로우나 봄날의 것이 보라. 인간은 두기 동력은 그리하였는가? 바이며, 날카로우나 별과 그들의 얼마나 풍부하게 기관과 간에 사라지지 말이다. 봄날의 무엇을 하는 유소년에게서 같으며, 그림자는 넣는 무한한 황금시대다. 사랑의 이것은 청춘 부패뿐이다. 하는 미인을 평화스러운 가치를 그들은 피다. 무엇을 용감하고 하여도 주며, 얼음과 없으면, 청춘에서만 이상의 보라.
@@ -39,16 +39,22 @@
                   </p>
               </div>
               <div class="payment_area">
-                <form>
+<!--                  <div th:object="${order}">-->
+<!--                      <div th:if="${#fields.hasGlobalErrors()}"></div>-->
+<!--                  </div>-->
+                <form th:action="@{/item/order}" method="post">
                   <div>열정가격</div>
                   <div class="item_price" th:text="${item.price}">330,000원</div>
-                  <input type="hidden" value="330000">
+                  <input type="hidden" value="330000" name="itemPrice" th:value="${item.price}">
+                    <input type="hidden" name="email" th:value="${#session.getAttribute('loginMember')}">
+                    <input type="hidden" name="itemId" th:value="${item.id}">
+                    <input th:if="${#strings.equals(item.category, '책')}" name="orderItemQuantity">
                   <button type="submit">구매하기</button>
                   <div class="payment_info">
                     ※ 위 결제는 실제 발생되는 결제가 아닙니다.
                   </div>
                   <div class="payment_info">
-                    ※ 부족한 열정은 내 정보에서 공짜로 충전이 가능합니다.
+                    ※ 부족한 열정은 내 정보에서 무료로 충전이 가능합니다.
                   </div>
                 </form>
               </div>

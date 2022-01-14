@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <header th:fragment="header">
-    <div><a href="index.html" th:href="@{/main}">진석샵(가제)</a></div>
+    <div style="margin-left:30px;"><a href="index.html" th:href="@{/main}">SOGI SHOP</a></div>
     <ul class="header_menu">
         <li><a href="board/boardList.html" th:href="@{/about-me}">About me</a></li>
-        <li><a href="items/itemList.html" th:href="@{/item?page=1}">진석샵(가제_그럴듯한 이름을 정해야 함)</a></li>
+        <li><a href="items/itemList.html" th:href="@{/item?page=1}">서기샵</a></li>
         <li><a href="board/boardList.html" th:href="@{/board?page=1}">게시판</a></li>
     </ul>
-    <ul class="header_usermenu">
+    <ul class="header_usermenu" style="margin-right:30px;">
         <li><a th:text="${#session}? |내 정보| : |회원가입|" th:href="${#session}? @{/myInfo} : @{/join}"></a></li>
         <li><a th:text="${#session}? |로그아웃| : |로그인|" th:href="${#session}? @{/logout} : @{/login}"></a></li>
     </ul>

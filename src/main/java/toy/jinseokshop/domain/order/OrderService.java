@@ -1,7 +1,9 @@
 package toy.jinseokshop.domain.order;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import toy.jinseokshop.domain.item.Item;
 import toy.jinseokshop.domain.item.ItemRepository;
@@ -12,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -35,6 +39,7 @@ public class OrderService {
 
         // 만약 회원의 열정이 상품들의 열정가격보다 낮다면 화면으로 메세지를 출력해야 한다.
         int totalPrice = calculateTotalItemPrice(orderItems);
+        assert member != null;
         if (member.getPassion() < totalPrice) {
             // TODO Not Enough Minerals 메세지 출력 (뷰로 이동)
         }
@@ -62,9 +67,9 @@ public class OrderService {
         List<OrderItem> orderItems = new ArrayList<>();
         if (!items.isEmpty()) {
             for (int i = 0; i < items.size(); i++) {
-                System.out.println("===================================");
-                System.out.println("item name : " + items.get(i).getItemName() + "            " + "item quantity : " + orderItemQuantities.get(i));
-                System.out.println("===================================");
+                log.info("===================================");
+                log.info("item name : {}        item quantity : {}", items.get(i).getItemName(), orderItemQuantities.get(i));
+                log.info("===================================");
                 OrderItem orderItem = OrderItem.createOrderItem(items.get(i), orderItemQuantities.get(i));
                 orderItemRepository.save(orderItem);
                 orderItems.add(orderItem);

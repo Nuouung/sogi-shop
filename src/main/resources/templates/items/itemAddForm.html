@@ -24,6 +24,8 @@
                     <label>상품명</label>
                     <input type="text" name="itemName" th:field="*{itemName}">
                     <div class="field_err" th:errors="*{itemName}"></div>
+                    <label>상품 내용</label>
+                    <textarea th:field="*{content}"></textarea>
                     <label>가격</label>
                     <input name="price" th:field="*{price}">
                     <div class="field_err" th:errors="*{price}"></div>
@@ -35,6 +37,7 @@
                         <label for="B">책</label>
                         <input type="radio" name="DType" id="L" value="L">
                         <label for="L">강의</label>
+                        <input type="radio" name="DType" id="E" value="E">
                     </div>
                     <div id="optionForBook" class="hidden">
                         <label>저자</label>
