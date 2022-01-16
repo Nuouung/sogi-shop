@@ -4,15 +4,19 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import toy.jinseokshop.domain.Base;
 import toy.jinseokshop.domain.member.Address;
 import toy.jinseokshop.domain.member.Member;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Delivery {
+public class Delivery extends Base {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "DELIVERY_ID")

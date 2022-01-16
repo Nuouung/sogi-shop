@@ -1,6 +1,7 @@
 package toy.jinseokshop.domain.item;
 
 import lombok.*;
+import toy.jinseokshop.domain.Base;
 import toy.jinseokshop.domain.file.File;
 import toy.jinseokshop.domain.member.Member;
 import toy.jinseokshop.domain.review.Review;
@@ -16,7 +17,7 @@ import java.util.List;
 @Getter @Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class Item {
+public class Item extends Base {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ITEM_ID")

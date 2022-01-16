@@ -11,23 +11,28 @@
          <header th:replace="~{fragment/header :: header}"></header>
         <main class="main_container">
             <nav class="category_container">
-              <div><a>전체 상품</a></div>
-              <div><a>책</a></div>
-              <div><a>강의</a></div>
-              <div><a>기타</a></div>
+              <div>카테고리</div>
+              <div><a th:href="@{/item?page=1}">전체상품</a></div>
+              <div><a th:href="@{/item/B?page=1}">책</a></div>
+              <div><a th:href="@{/item/L?page=1}">강의</a></div>
+              <div><a th:href="@{/item/E?page=1}">기타</a></div>
               <div></div>
-              <button><a th:href="@{/item/add}">판매자 상품 등록</a></button>
+                <button th:onclick="|location.href='@{/item/add}'|">판매자 상품 등록</button>
             </nav>
             <section class="items_container">
               <div class="item_card" th:each="item : ${list}">
                   <a th:href="@{/item/detail/{id}(id=${item.id})}">
-                       <img width="250px" height="250px" th:if="${not #lists.isEmpty(item.files)}" th:src="@{|/images/${item.files[0].convertedFileName}|}">
-                      <img width="250px" height="250px" th:if="${#lists.isEmpty(item.files)}" th:src="@{/image/noImage/noImage.png}">
+                      <div style="width:250px; height:250px;">
+                           <img style="width: inherit; height: inherit; object-fit: cover;" th:if="${not #lists.isEmpty(item.files)}" th:src="@{|/images/${item.files[0].convertedFileName}|}">
+                          <img style="width: inherit; height: inherit; object-fit: cover;" th:if="${#lists.isEmpty(item.files)}" th:src="@{/image/noImage/noImage.png}">
+                      </div>
                   </a>
-                    <div><a th:href="@{/item/detail/{id}(id=${item.id})}" th:text="${item.itemName}">이름</a></div>
-                    <div th:text="${item.starRating}">별점</div>
-                    <div th:text="${item.price}">열정가격</div>
-                    <div th:text="${item.reviewNumbers}">리뷰 수</div>
+                    <div><a style="font-weight: bold; font-size: 17px;" th:href="@{/item/detail/{id}(id=${item.id})}" th:text="${item.itemName}">자바스크립트 : 기초부터 실전까지 올인원</a></div>
+                    <div class="review_container">
+                      <div th:text="|${item.starRating}점의 만족도 |">4.0점의 만족도</div>
+                      <div th:text="|(${item.reviewNumbers}개 리뷰)|">(4개 리뷰)</div>
+                    </div>
+                    <div style="font-size: 19px; font-weight: bold; color:rgb(57, 92, 207);" th:text="|₩ ${item.price}|">₩ 40000</div>
               </div>
             </section>
         </main>

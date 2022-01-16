@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import toy.jinseokshop.domain.Base;
 import toy.jinseokshop.domain.item.Item;
 import toy.jinseokshop.domain.member.Member;
 import toy.jinseokshop.web.review.ReviewFormDto;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Entity
 @Getter @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Review {
+public class Review extends Base {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "REVIEW_ID")

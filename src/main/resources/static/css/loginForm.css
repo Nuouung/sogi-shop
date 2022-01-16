@@ -11,9 +11,9 @@ main {
   display: flex;
   margin: 0;
 
-  border: 2px solid grey;
+  border: 1px solid rgb(138, 138, 138, 0.6);
   padding: 40px;
-  margin-bottom: 20px;
+  margin-bottom: 7px;
 }
 
 .login_container {
@@ -22,6 +22,58 @@ main {
   align-items: center;
   margin: 0;
 
-  border: 2px solid grey;
+  border: 2px solid rgb(138, 138, 138, 0.6);
   padding: 40px;
+}
+
+.logo {
+  margin-bottom: 40px;
+  font-size: 23px;
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+
+input {
+  margin-bottom: 7px;
+  height: 30px !important;
+  font-size: 15px;
+
+  border-radius: 4px;
+  border: 1px solid grey !important;
+}
+
+.form_button {
+  margin: 7px 0;
+  width: 272px;
+  height: 40px;
+  color: white;
+  font-size: 15px;
+  letter-spacing: 2px;
+  background-color: rgb(50, 106, 211);
+
+  border: none;
+  border-radius: 4px;
+}
+
+.or_separator {
+  margin: 10px 0;
+  color: rgb(187, 187, 187);
+  font-weight: lighter;
+}
+
+.inside_container {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin: 4px 0;
+  align-items: center;
+}
+
+.inside_container div {
+  font-size: 15px;
+  color: rgb(39, 39, 39);
+}
+
+.inside_container div:nth-child(2) {
+  font-weight: bold;
 }

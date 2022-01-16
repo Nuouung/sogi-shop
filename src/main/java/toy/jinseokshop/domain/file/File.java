@@ -4,6 +4,7 @@ package toy.jinseokshop.domain.file;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import toy.jinseokshop.domain.Base;
 import toy.jinseokshop.domain.item.Item;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class File {
+public class File extends Base {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "FILE_ID")

@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import toy.jinseokshop.domain.Base;
 import toy.jinseokshop.domain.member.Member;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @Getter @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "ORDERS")
-public class Order {
+public class Order extends Base {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ORDERS_ID")

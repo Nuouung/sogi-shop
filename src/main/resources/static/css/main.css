@@ -25,3 +25,13 @@
   transform: translate(-50%, -50%);
   z-index: 1;
 }
+
+.image_flexbox p {
+  font-family: "Black Han Sans", sans-serif !important;
+
+  font-size: 40px;
+  margin: -4px;
+
+  letter-spacing: 2px;
+  color: rgb(50, 106, 211);
+}

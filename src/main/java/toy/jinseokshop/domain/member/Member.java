@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import toy.jinseokshop.domain.Base;
 import toy.jinseokshop.domain.item.Item;
 import toy.jinseokshop.web.member.MemberDto;
 
@@ -16,7 +17,7 @@ import java.util.Set;
 @Entity
 @Getter @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor
-public class Member {
+public class Member extends Base {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "MEMBER_ID")

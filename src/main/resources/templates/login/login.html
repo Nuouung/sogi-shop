@@ -11,15 +11,15 @@
 <header th:replace="~{fragment/header :: header}"></header>
     <main>
             <form action="../index.html" th:action th:object="${loginDto}" method="post">
-            <section class="error_container">
-              <div class="field_err" th:if="${#fields.hasGlobalErrors()">이메일 혹은 비밀번호가 올바르지 않습니다.</div>
+            <section class="error_container" th:if="${#fields.hasGlobalErrors()}">
+              <div class="field_err">이메일 혹은 비밀번호가 올바르지 않습니다.</div>
             </section>
             <section class="login_container">
               <div class="logo">SOGI SHOP</div>
               <input type="text" name="email" placeholder="사용자 이름">
               <input type="password" name="password" placeholder="비밀번호">
               <button type="submit" class="form_button">로그인</button>
-              <div class="or_seperator">또는</div>
+              <div class="or_separator">또는</div>
               <div class="inside_container">
                 <div>비밀번호를 잊으셨나요?</div>
                 <div>비밀번호 찾기</div>

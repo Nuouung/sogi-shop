@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
+import toy.jinseokshop.domain.Base;
 
 import javax.persistence.Embeddable;
 

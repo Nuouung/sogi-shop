@@ -3,9 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <title>연습용 사이트</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap">
-        <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
-        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+        <link rel="stylesheet" href="../static/css/main.css" th:href="@{/css/main.css}">
     </head>
     <body>
         <header th:replace="~{fragment/header :: header}"></header>
@@ -13,14 +15,14 @@
             <div class="image_frame">
                 <div class="image_flexbox">
                     <p>안녕하세요</p>
-                    <p>나를 표현하는 말을 적어야 할거 같은데</p>
-                    <p>할 말이 생각나지 않습니다.</p>
-                    <p>나중에 다시 적도록 하겠습니다</p>
+                    <p>성장하는 개발자의 보금자리</p>
+                    <p>서기샵에 오신 것을 환영합니다</p>
+                    <p>누어어어어어어어어어어</p>
                 </div>
-                <img src="image/KakaoTalk_20220103_184939596_01.jpg" th:src="@{/image/KakaoTalk_20220103_184939596_01.jpg}">
+                <img src="../static/image/KakaoTalk_20220103_184939596_01.jpg" th:src="@{/image/KakaoTalk_20220103_184939596_01.jpg}">
             </div>
           <section>
-            <img src="image/KakaoTalk_20220103_114241522.jpg" th:href="@{/image/KakaoTalk_20220103_114241522.jpg}" width="200px">
+            <img src="../static/image/KakaoTalk_20220103_114241522.jpg" th:href="@{/image/KakaoTalk_20220103_114241522.jpg}" width="200px">
             <p>안녕하세요 werhorew에 오신 여러분을 환영합니다! 저는 여러분을 도와드릴 wejriowejio의 매니져 이진석입니다!</p>
           </section>
         </main>

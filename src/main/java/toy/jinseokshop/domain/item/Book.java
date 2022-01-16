@@ -1,6 +1,7 @@
 package toy.jinseokshop.domain.item;
 
 import lombok.*;
+import toy.jinseokshop.domain.Base;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
