@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>연습용 사이트</title>
+    <title>SOGI SHOP :: SIGN IN</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap">
     <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="../../static/css/loginForm.css" th:href="@{/css/loginForm.css}">
@@ -31,10 +31,10 @@
                 <input type="checkbox" name="isSeller" style="width: 25px;height:25px;">
             </div>
             <button type="submit" class="form_button">회원가입</button>
-            <div class="or_seperator">또는</div>
+            <div class="or_separator">또는</div>
             <div class="inside_container">
                 <div>계정이 있으신가요?</div>
-                <div>로그인하기</div>
+                <div><a th:href="@{/login}">로그인하기</a></div>
             </div>
         </section>
     </form>

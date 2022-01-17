@@ -61,4 +61,8 @@ public class Member extends Base {
     public void reducePassion(int itemPrice) {
         this.passion -= itemPrice;
     }
+
+    public void updatePassion(int newPassion) {
+        this.passion = newPassion;
+    }
 }

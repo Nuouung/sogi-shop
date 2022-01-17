@@ -5,12 +5,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import toy.jinseokshop.domain.member.Member;
+import toy.jinseokshop.domain.member.MemberConst;
 import toy.jinseokshop.domain.member.MemberRepository;
+import toy.jinseokshop.domain.member.MemberService;
+import toy.jinseokshop.domain.order.OrderItem;
+import toy.jinseokshop.domain.order.OrderService;
+import toy.jinseokshop.web.login.SessionConst;
 import toy.jinseokshop.web.validator.MemberValidator;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,6 +25,8 @@ import toy.jinseokshop.web.validator.MemberValidator;
 public class MemberController {
 
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
+    private final OrderService orderService;
     private final MemberValidator memberValidator;
 
     @GetMapping("/join")
@@ -38,5 +47,39 @@ public class MemberController {
         memberRepository.save(member);
         return "redirect:/main";
     }
+
+    @GetMapping("/myInfo")
+    public String myInfoPage(Model model, HttpServletRequest request) {
+        String email = (String) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        MemberDto memberDto = memberService.findMemberDtoByEmail(email);
+
+        if (memberDto == null) {
+            return "/";
+        }
+
+        List<OrderItem> orderItems = orderService.findOrderItems(memberDto.getId());
+
+        model.addAttribute("member", memberDto);
+        model.addAttribute("items", orderItems);
+        return "/member/myInfo";
+    }
+
+    @GetMapping("/member/charge/{id}")
+    public String chargePassion(@PathVariable Long id) {
+        memberService.chargePassion(id);
+        return "redirect:/myInfo";
+    }
+
+    @GetMapping("/find/password")
+    public String findPasswordForm() {
+        return "member/findPassword";
+    }
+
+//    @GetMapping("/find/password/find")
+//    public String findPassword(@RequestParam String email, Model model) {
+//        String result = memberService.findPassword(email);
+//        model.addAttribute("result", result);
+//        return "/member/findPassword";
+//    }
 
 }

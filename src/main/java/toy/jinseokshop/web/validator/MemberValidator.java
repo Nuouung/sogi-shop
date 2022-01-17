@@ -44,7 +44,7 @@ public class MemberValidator {
         }
 
         if (findMember.isPresent()) {
-            bindingResult.addError(new ObjectError("member", "이미 존재하는 회원입니다. 아이디를 바꿔용."));
+            bindingResult.addError(new ObjectError("member", "이미 존재하는 회원입니다. 아이디를 바꿔주세요."));
 //            bindingResult.addError(new ObjectError("member", new String[]{"duplicate.member"}, null, null));
         }
 

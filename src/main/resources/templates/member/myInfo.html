@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SOGI SHOP :: MY INFO</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap">
+    <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../../static/css/items/itemList.css" th:href="@{/css/items/itemList.css}">
+</head>
+<body>
+<header th:replace="~{fragment/header :: header}"></header>
+<main class="main_container">
+    <nav class="category_container">
+        <div>내 정보</div>
+        <div th:text="|이름 : ${member.email}|">회원 이름</div>
+        <div th:text="|판매자 여부 : ${member.isSeller}|">판매자 여부</div>
+        <div th:text="|보유 열정 : ${member.passion}원|">내 열정가격</div>
+        <div></div>
+        <div></div>
+        <button th:onclick="|location.href='@{/member/charge/{id}(id=${member.id})}'|">열정가격 10만원 충전</button>
+    </nav>
+    <section class="items_container">
+        <div class="item_card" th:each="item : ${items}">
+            <a th:href="@{/item/detail/{id}(id=${item.item.id})}">
+                <div style="width:250px; height:250px;">
+                    <img style="width: inherit; height: inherit; object-fit: cover;" th:if="${not #lists.isEmpty(item.item.files)}" th:src="@{|/images/${item.item.files[0].convertedFileName}|}">
+                    <img style="width: inherit; height: inherit; object-fit: cover;" th:if="${#lists.isEmpty(item.item.files)}" th:src="@{/image/noImage/noImage.png}">
+                </div>
+            </a>
+            <div><a style="font-weight: bold; font-size: 17px;" th:href="@{/item/detail/{id}(id=${item.item.id})}" th:text="${item.item.itemName}">자바스크립트 : 기초부터 실전까지 올인원</a></div>
+            <div class="review_container">
+                <div th:text="|${item.order.orderStatus} |">주문 상태</div>
+                <div th:text="|(${item.order.delivery.deliveryStatus})|">(배송 상태)</div>
+            </div>
+            <div style="font-size: 19px; font-weight: bold; color:rgb(57, 92, 207);" th:text="|₩ ${item.orderPrice}|">₩ 40000</div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

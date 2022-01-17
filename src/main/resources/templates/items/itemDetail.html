@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>연습용 사이트</title>
+        <title>SOGI SHOP :: SHOP</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap">
         <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}">
         <link rel="stylesheet" href="../../static/css/items/itemDetail.css" th:href="@{/css/items/itemDetail.css}">
@@ -38,12 +38,10 @@
 위에 너무나 쉬이 속의 이런 이름자를 했던 밤이 계십니다. 다 라이너 이런 비둘기, 아직 둘 겨울이 듯합니다. 비둘기, 잠, 하나에 봅니다. 그리고 이국 계절이 별에도 북간도에 하나에 별 묻힌 거외다. 가을 별 무성할 비둘기, 토끼, 프랑시스 봅니다. 이웃 것은 밤을 거외다. 다 계집애들의 벌써 당신은 계절이 어머님, 봅니다. 파란 없이 아침이 하나에 가을로 이런 이름과, 못 봅니다. 책상을 어머니, 하나에 동경과 청춘이 소녀들의 버리었습니다. 아직 풀이 쉬이 하나에 하나에 하나 지나가는 내 하나에 봅니다. 이 아름다운 까닭이요, 하나에 별 무덤 새워 청춘이 추억과 까닭입니다.
                   </p>
               </div>
-              <div class="payment_area">
-<!--                  <div th:object="${order}">-->
-<!--                      <div th:if="${#fields.hasGlobalErrors()}"></div>-->
-<!--                  </div>-->
-                <form th:action="@{/item/order}" method="post">
-                  <div>열정가격</div>
+                <div class="payment_area">
+                    <div style="border:1px solid grey; padding: 15px 20px; color:red; margin-bottom: 10px;" th:if="${moneyError}" th:text="${moneyError}"></div>
+                    <form th:action="@{/item/order}" method="post">
+                    <div>열정가격</div>
                   <div class="item_price" th:text="|${item.price}원|">330,000원</div>
                   <input type="hidden" value="330000" name="itemPrice" th:value="${item.price}">
                     <input type="hidden" name="email" th:value="${#session.getAttribute('loginMember')}">

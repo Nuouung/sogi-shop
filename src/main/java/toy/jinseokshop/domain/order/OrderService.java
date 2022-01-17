@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import toy.jinseokshop.domain.item.Item;
 import toy.jinseokshop.domain.item.ItemRepository;
 import toy.jinseokshop.domain.member.Member;
@@ -41,12 +42,26 @@ public class OrderService {
         int totalPrice = calculateTotalItemPrice(orderItems);
         assert member != null;
         if (member.getPassion() < totalPrice) {
-            // TODO Not Enough Minerals 메세지 출력 (뷰로 이동)
+            bindingResult.addError(new ObjectError("moneyError", "금액이 부족합니다. 열정 금액을 더 충전해주세요."));
+            return null;
         }
         
         // 주문을 진행한다
         Order order = Order.createOrder(member, delivery, orderItems, totalPrice);
         return orderRepository.save(order);
+    }
+
+    public List<OrderItem> findOrderItems(Long memberId) {
+        List<Order> orders = orderRepository.findAllByMemberId(memberId);
+
+        List<OrderItem> result = new ArrayList<>();
+        for (Order order : orders) {
+            List<OrderItem> orderItems = orderItemRepository.findAllByOrderId(order.getId());
+            for (OrderItem orderItem : orderItems) {
+                result.add(orderItem);
+            }
+        }
+        return result;
     }
 
     private Delivery createDelivery(Member member) {

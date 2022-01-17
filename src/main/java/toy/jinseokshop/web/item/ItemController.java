@@ -2,6 +2,7 @@ package toy.jinseokshop.web.item;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +52,7 @@ public class ItemController {
     }
 
     @GetMapping("/detail/{id}")
-    public String itemDetail(@PathVariable Long id, Model model, HttpServletRequest request) {
+    public String itemDetail(@PathVariable Long id, @Nullable @RequestParam("moneyError") String err, Model model, HttpServletRequest request) {
         ItemDto itemDto = itemService.findById(id);
         List<ReviewDto> reviewDtoList = reviewService.findByItemId(id);
 
@@ -63,6 +64,7 @@ public class ItemController {
         model.addAttribute("item", itemDto);
         model.addAttribute("queryParam", queryParam);
         model.addAttribute("reviews", reviewDtoList);
+        model.addAttribute("moneyError", err);
 
         return "/items/itemDetail";
     }
