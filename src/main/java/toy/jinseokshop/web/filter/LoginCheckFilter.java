@@ -32,7 +32,7 @@ public class LoginCheckFilter implements Filter {
                     log.info("미인증 사용자 요청 {}", requestURI);
 
                     // 로그인 화면으로 redirect
-                    httpResponse.sendRedirect("/login?redirectURL=" + requestURI);
+                    httpResponse.sendRedirect("/login");
 
                     return; // 리턴을 하지 않으면 미인증 사용자가 정상 로직을 밟게 되므로 오류가 날 수 있다!
                 }
