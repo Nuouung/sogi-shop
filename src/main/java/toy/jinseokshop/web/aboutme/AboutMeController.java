@@ -8,7 +8,7 @@ public class AboutMeController {
 
     @GetMapping("/about-me")
     public String aboutMePage() {
-        return "/aboutme/aboutme";
+        return "aboutme/aboutme";
     }
 
 }

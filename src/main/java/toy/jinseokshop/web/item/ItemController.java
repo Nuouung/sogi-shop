@@ -39,7 +39,7 @@ public class ItemController {
         // 이 메소드 하나면 컨트롤러 단에서의 페이징 끝.
         pagingManager.storePageToModel(itemService.getPage(page, "main"), page, model);
 
-        return "/items/itemList";
+        return "items/itemList";
     }
 
     @GetMapping("/{type}")
@@ -48,7 +48,7 @@ public class ItemController {
         // 이 메소드 하나면 컨트롤러 단에서의 페이징 끝.
         pagingManager.storePageToModel(itemService.getPage(page, type), page, model);
 
-        return "/items/itemList";
+        return "items/itemList";
     }
 
     @GetMapping("/detail/{id}")
@@ -66,13 +66,13 @@ public class ItemController {
         model.addAttribute("reviews", reviewDtoList);
         model.addAttribute("moneyError", err);
 
-        return "/items/itemDetail";
+        return "items/itemDetail";
     }
 
     @GetMapping("/add")
     public String itemAddForm(Model model) {
         model.addAttribute("item", new ItemFormDto());
-        return "/items/itemAddForm";
+        return "items/itemAddForm";
     }
 
     @PostMapping("/add")
