@@ -6,7 +6,7 @@
     <ul class="header_menu">
         <li><a href="board/boardList.html" th:href="@{/about-me}">About me</a></li>
         <li><a href="items/itemList.html" th:href="@{/item?page=1}">서기샵</a></li>
-        <li><a href="board/boardList.html" th:href="@{/board?page=1}">게시판</a></li>
+<!--        <li><a href="board/boardList.html" th:href="@{/board?page=1}">게시판</a></li>-->
     </ul>
     <ul class="header_usermenu" style="margin-right:30px;">
         <li><a th:text="${#session}? |내 정보| : |회원가입|" th:href="${#session}? @{/myInfo} : @{/join}"></a></li>

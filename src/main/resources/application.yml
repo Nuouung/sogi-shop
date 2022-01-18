@@ -1,13 +1,13 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/jinseokshop
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mariadb://sogi-shop-project.chq5rkiuqbne.ap-northeast-2.rds.amazonaws.com:3306/sogi_shop
+    username: jinseok
+    password: d84247f4324b4da7b6b26ddadc5b0d3a
+    driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         show_sql: true
@@ -18,7 +18,7 @@ spring:
       org.hibernate.SQL: debug
       org.hibernate.type: trace
 
-# 스프링 부트 메시지 설정 추가
+  # 스프링 부트 메시지 설정 추가
   messages:
     basename: errors
 
