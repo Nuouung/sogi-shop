@@ -32,7 +32,7 @@ public class MemberController {
     @GetMapping("/join")
     public String joinForm(Model model) {
         model.addAttribute("member", new MemberDto());
-        return "/member/joinForm";
+        return "member/joinForm";
     }
 
     @PostMapping("/join")
@@ -40,7 +40,7 @@ public class MemberController {
         // 검증로직
         memberValidator.joinValidate(memberDto, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "/member/joinForm";
+            return "member/joinForm";
         }
 
         Member member = new Member(memberDto);
@@ -61,7 +61,7 @@ public class MemberController {
 
         model.addAttribute("member", memberDto);
         model.addAttribute("items", orderItems);
-        return "/member/myInfo";
+        return "member/myInfo";
     }
 
     @GetMapping("/member/charge/{id}")

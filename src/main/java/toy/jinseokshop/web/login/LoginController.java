@@ -26,7 +26,7 @@ public class LoginController {
     @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("loginDto", new LoginDto());
-        return "/login/login";
+        return "login/login";
     }
 
     @PostMapping("/login")
@@ -39,7 +39,7 @@ public class LoginController {
             // 로그인 실패
             bindingResult.addError(new ObjectError("loginDto", new String[]{"아이디나 비밀번호가 올바르지 않습니다."}, new String[]{}, null));
             log.info("errors = {}", bindingResult);
-            return "/login/login";
+            return "login/login";
         }
 
         // 로그인 성공 - 인가
