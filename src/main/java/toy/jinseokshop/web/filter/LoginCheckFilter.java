@@ -13,7 +13,7 @@ import java.io.IOException;
 @Slf4j
 public class LoginCheckFilter implements Filter {
 
-    private static final String[] whitelist = {"/", "/main", "/login", "/logout", "/join", "/find/password", "/css/*", "/js/*", "/image/*"};
+    private static final String[] whitelist = {"/", "/main", "/login", "/logout", "/join", "/css/**", "/js/**", "/image/**"};
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
