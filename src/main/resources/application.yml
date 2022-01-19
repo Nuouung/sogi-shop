@@ -36,6 +36,6 @@ logging:
           http11: debug
 
 file:
-  dir: /home/ec2-user/app/step1/sogi-shop/src/resources/file/
+  dir: /home/ec2-user/file/
 
 
