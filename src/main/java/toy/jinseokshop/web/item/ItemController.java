@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import toy.jinseokshop.domain.file.File;
 import toy.jinseokshop.domain.item.Item;
@@ -16,6 +17,7 @@ import toy.jinseokshop.domain.review.ReviewDto;
 import toy.jinseokshop.domain.review.ReviewService;
 import toy.jinseokshop.web.file.FileStorageManager;
 import toy.jinseokshop.web.login.SessionConst;
+import toy.jinseokshop.web.validator.ItemValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -33,12 +35,16 @@ public class ItemController {
     private final PagingManager<Item> pagingManager;
     private final FileStorageManager fileStorageManager;
 
+    private final ItemValidator itemValidator;
+
     @GetMapping
-    public String itemList(@RequestParam int page, Model model, HttpServletRequest request) {
+    public String itemList(@RequestParam int page, @Nullable @RequestParam String noSeller, Model model, HttpServletRequest request) {
         // 쿼리파라미터로 받은 page를 바탕으로 Item 객체 리스트를 페이징 해서 뷰 단으로 띄워준다.
         // 이 메소드 하나면 컨트롤러 단에서의 페이징 끝.
         pagingManager.storePageToModel(itemService.getPage(page, "main"), page, model);
 
+        // 판매자가 아닌 사람이 판매 버튼을 누르면 에러 메세지가 출력됨
+        model.addAttribute("NoSeller", noSeller);
         return "items/itemList";
     }
 
@@ -70,7 +76,14 @@ public class ItemController {
     }
 
     @GetMapping("/add")
-    public String itemAddForm(Model model) {
+    public String itemAddForm(@ModelAttribute ItemFormDto itemFormDto, BindingResult bindingResult, HttpServletRequest request, Model model) {
+
+        itemValidator.IsSellerValidate(request, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "redirect:/item?page=1&noSeller=true";
+        }
+
         model.addAttribute("item", new ItemFormDto());
         return "items/itemAddForm";
     }

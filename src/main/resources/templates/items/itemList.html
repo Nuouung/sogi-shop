@@ -17,6 +17,7 @@
               <div><a th:href="@{/item/L?page=1}">강의</a></div>
               <div><a th:href="@{/item/E?page=1}">기타</a></div>
               <div></div>
+                <div class="field-err" th:if="${NoSeller}" th:text="|판매자가 아닌 회원은 상품을 등록할 수 없습니다.|"></div>
                 <button th:onclick="|location.href='@{/item/add}'|">판매자 상품 등록</button>
             </nav>
             <section class="items_container">

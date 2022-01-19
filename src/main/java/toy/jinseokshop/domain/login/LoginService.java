@@ -13,13 +13,13 @@ public class LoginService {
 
     private final MemberRepository memberRepository;
 
-    public String login(String email, String password) {
+    public Member login(String email, String password) {
         Optional<Member> foundMember = memberRepository.findByEmail(email);
 
         if (foundMember.isPresent()) {
             Member member = foundMember.get();
             if (member.getPassword().equals(password)) {
-                return email;
+                return foundMember.get();
             }
         }
         return null;
