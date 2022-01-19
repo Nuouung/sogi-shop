@@ -36,6 +36,6 @@ logging:
           http11: debug
 
 file:
-  dir: C:/Users/이진석/Desktop/서랍/코딩/spring 연습/file/
+  dir: /home/ec2-user/app/step1/sogi-shop/src/resources/file/
 
 
