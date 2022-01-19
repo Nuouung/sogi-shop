@@ -14,6 +14,7 @@ import toy.jinseokshop.domain.member.MemberService;
 import toy.jinseokshop.domain.order.OrderItem;
 import toy.jinseokshop.domain.order.OrderService;
 import toy.jinseokshop.web.login.SessionConst;
+import toy.jinseokshop.web.login.SessionLoginDto;
 import toy.jinseokshop.web.validator.MemberValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +51,8 @@ public class MemberController {
 
     @GetMapping("/myInfo")
     public String myInfoPage(Model model, HttpServletRequest request) {
-        String email = (String) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        SessionLoginDto sessionLoginDto = (SessionLoginDto) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        String email = sessionLoginDto.getEmail();
         MemberDto memberDto = memberService.findMemberDtoByEmail(email);
 
         if (memberDto == null) {

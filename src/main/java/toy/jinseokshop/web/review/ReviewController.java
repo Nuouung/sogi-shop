@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import toy.jinseokshop.domain.review.ReviewService;
 import toy.jinseokshop.web.login.SessionConst;
+import toy.jinseokshop.web.login.SessionLoginDto;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +19,8 @@ public class ReviewController {
     @PostMapping("/{itemId}")
     public String submitReviewForm(@PathVariable Long itemId, @ModelAttribute ReviewFormDto reviewFormDto, HttpServletRequest request) {
         // 1. 어느 회원이 댓글을 썼는지 회원을 찾는다.
-        String memberEmail = (String) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        SessionLoginDto sessionLoginDto = (SessionLoginDto) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        String memberEmail = sessionLoginDto.getEmail();
 
         // 2. review를 db상에 넣어야 한다.
         reviewService.save(memberEmail, itemId, reviewFormDto);

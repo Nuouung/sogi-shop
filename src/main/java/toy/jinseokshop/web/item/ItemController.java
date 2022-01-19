@@ -17,6 +17,7 @@ import toy.jinseokshop.domain.review.ReviewDto;
 import toy.jinseokshop.domain.review.ReviewService;
 import toy.jinseokshop.web.file.FileStorageManager;
 import toy.jinseokshop.web.login.SessionConst;
+import toy.jinseokshop.web.login.SessionLoginDto;
 import toy.jinseokshop.web.validator.ItemValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -104,7 +105,8 @@ public class ItemController {
             itemFormDto.setOptionA("X");
             itemFormDto.setOptionB("X");
         }
-        String email = (String) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        SessionLoginDto sessionLoginDto = (SessionLoginDto) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
+        String email = sessionLoginDto.getEmail();
         Long id = itemService.saveItem(email, itemFormDto, files);
         return "redirect:/item/detail/" + id;
     }
