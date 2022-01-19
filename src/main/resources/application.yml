@@ -28,12 +28,12 @@ server:
     session:
       tracking-modes: cookie
 
-logging:
-  level:
-    org:
-      apache:
-        coyote:
-          http11: debug
+#logging:
+#  level:
+#    org:
+#      apache:
+#        coyote:
+#          http11: debug
 
 file:
   dir: /home/ec2-user/file/
