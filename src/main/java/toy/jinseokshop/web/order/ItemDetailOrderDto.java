@@ -9,5 +9,6 @@ public class ItemDetailOrderDto {
     private String email;
     private Long itemId;
     private int orderItemQuantity;
+    private String category;
 
 }
