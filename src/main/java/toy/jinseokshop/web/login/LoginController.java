@@ -36,7 +36,7 @@ public class LoginController {
         Member member = loginService.login(loginDto.getEmail(), loginDto.getPassword());
 
         // 인증
-        if (!StringUtils.hasText(member.getEmail())) {
+        if (member == null) {
             // 로그인 실패
             bindingResult.addError(new ObjectError("loginDto", new String[]{"아이디나 비밀번호가 올바르지 않습니다."}, new String[]{}, null));
             log.info("errors = {}", bindingResult);
