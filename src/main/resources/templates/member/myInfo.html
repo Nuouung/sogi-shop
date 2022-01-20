@@ -29,8 +29,10 @@
             </a>
             <div><a style="font-weight: bold; font-size: 17px;" th:href="@{/item/detail/{id}(id=${item.item.id})}" th:text="${item.item.itemName}">자바스크립트 : 기초부터 실전까지 올인원</a></div>
             <div class="review_container">
-                <div th:text="|${item.order.orderStatus} |">주문 상태</div>
-                <div th:text="|(${item.order.delivery.deliveryStatus})|">(배송 상태)</div>
+                <div th:if="${#strings.equals(item.order.orderStatus, 'COMP')}" th:text="|결제완료 |">주문 상태</div>
+                <div th:if="${#strings.equals(item.order.delivery.deliveryStatus, 'PREPARING')}" th:text="|(배송 준비 중)|">(배송 상태)</div>
+                <div th:if="${#strings.equals(item.order.delivery.deliveryStatus, 'SHIPPED')}" th:text="|(배송 중)|">(배송 상태)</div>
+                <div th:if="${#strings.equals(item.order.delivery.deliveryStatus, 'CLOSED')}" th:text="|(배송완료)|">(배송 상태)</div>
             </div>
             <div style="font-size: 19px; font-weight: bold; color:rgb(57, 92, 207);" th:text="|₩ ${item.orderPrice}|">₩ 40000</div>
         </div>

@@ -6,6 +6,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import toy.jinseokshop.domain.file.File;
 import toy.jinseokshop.domain.item.Item;
@@ -18,6 +19,7 @@ import toy.jinseokshop.domain.review.ReviewService;
 import toy.jinseokshop.web.file.FileStorageManager;
 import toy.jinseokshop.web.login.SessionConst;
 import toy.jinseokshop.web.login.SessionLoginDto;
+import toy.jinseokshop.web.validator.FileValidator;
 import toy.jinseokshop.web.validator.ItemValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +39,7 @@ public class ItemController {
     private final FileStorageManager fileStorageManager;
 
     private final ItemValidator itemValidator;
+    private final FileValidator fileValidator;
 
     @GetMapping
     public String itemList(@RequestParam int page, @Nullable @RequestParam String noSeller, Model model, HttpServletRequest request) {
@@ -59,7 +62,7 @@ public class ItemController {
     }
 
     @GetMapping("/detail/{id}")
-    public String itemDetail(@PathVariable Long id, @Nullable @RequestParam("moneyError") String err, Model model, HttpServletRequest request) {
+    public String itemDetail(@PathVariable Long id, @Nullable @RequestParam("moneyError") String moneyError, @Nullable @RequestParam("quantityError") String quantityError, Model model, HttpServletRequest request) {
         ItemDto itemDto = itemService.findById(id);
         List<ReviewDto> reviewDtoList = reviewService.findByItemId(id);
 
@@ -71,35 +74,75 @@ public class ItemController {
         model.addAttribute("item", itemDto);
         model.addAttribute("queryParam", queryParam);
         model.addAttribute("reviews", reviewDtoList);
-        model.addAttribute("moneyError", err);
+        model.addAttribute("moneyError", moneyError);
+        model.addAttribute("quantityError", quantityError);
 
         return "items/itemDetail";
     }
 
     @GetMapping("/add")
-    public String itemAddForm(@ModelAttribute ItemFormDto itemFormDto, BindingResult bindingResult, HttpServletRequest request, Model model) {
+    public String itemAddForm(@ModelAttribute ItemFormDto itemFormDto, BindingResult bindingResult,
+                              @Nullable @RequestParam("itemNameError") String itemNameError,
+                              @Nullable @RequestParam("priceError") String priceError,
+                              @Nullable @RequestParam("quantityError") String quantityError,
+                              @Nullable @RequestParam("fileError") String fileError,
+                              HttpServletRequest request, Model model) {
 
-        itemValidator.IsSellerValidate(request, bindingResult);
+        itemValidator.isSellerValidate(request, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "redirect:/item?page=1&noSeller=true";
         }
 
         model.addAttribute("item", new ItemFormDto());
+        model.addAttribute("itemNameError", itemNameError);
+        model.addAttribute("priceError", priceError);
+        model.addAttribute("quantityError", quantityError);
+        model.addAttribute("fileError", fileError);
+
         return "items/itemAddForm";
     }
 
     @PostMapping("/add")
-    public String itemAdd(@ModelAttribute(name = "item") ItemFormDto itemFormDto, HttpServletRequest request) throws IOException {
-        List<File> files = fileStorageManager.store(itemFormDto.getFiles());
+    public String itemAdd(@ModelAttribute(name = "item") ItemFormDto itemFormDto, BindingResult bindingResult, HttpServletRequest request) throws IOException {
+        fileValidator.isImageValidate(itemFormDto.getFiles(), bindingResult);
+        itemValidator.itemAddFormValidate(itemFormDto, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            String itemNameError = null;
+            String priceError = null;
+            String quantityError = null;
+            String fileError = null;
+            log.info("bindingResult = {}", bindingResult);
+            for (ObjectError allError : bindingResult.getAllErrors()) {
+                switch (allError.getObjectName()) {
+                    case "itemNameError" :
+                        itemNameError = "true";
+                        break;
+                    case "priceError" :
+                        priceError = "true";
+                        break;
+                    case "quantityError" :
+                        quantityError = "true";
+                        break;
+                    case "fileError" :
+                        fileError = "true";
+                        break;
+                }
+            }
+            String queryParameter = "itemNameError=" + itemNameError + "&priceError=" + priceError + "&quantityError=" + quantityError + "&fileError=" + fileError;
+            return "redirect:/item/add" + "?" + queryParameter;
+        }
 
         // 자바스크립트에서 막기는 했지만 사용자가 자바스크립트를 조작해 optionA, B가 2개로 넘어올 수 있다.
         // optionA, B가 2개로 넘어오면 서비스 장애가 날 가능성이 있으니 사전조치하자.
         boolean maliciousApproach = maliciousClientApproachCatcher(itemFormDto.getOptionA(), itemFormDto.getOptionB());
-
         if (maliciousApproach) {
             return "redirect:/";
         }
+
+        // 정상로직
+        List<File> files = fileStorageManager.store(itemFormDto.getFiles());
 
         if (itemFormDto.getDType().equals(ItemConst.ETC)) {
             itemFormDto.setOptionA("X");
@@ -107,7 +150,8 @@ public class ItemController {
         }
         SessionLoginDto sessionLoginDto = (SessionLoginDto) request.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER);
         String email = sessionLoginDto.getEmail();
-        Long id = itemService.saveItem(email, itemFormDto, files);
+//        Long id = itemService.saveItem(email, itemFormDto, files);
+        Long id = 1L;
         return "redirect:/item/detail/" + id;
     }
 

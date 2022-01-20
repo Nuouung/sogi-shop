@@ -19,25 +19,38 @@
     <body>
         <header th:replace="~{fragment/header :: header}"></header>
         <main>
-            <section>
-                <form action="itemList.html" th:action th:object="${item}" method="post" enctype="multipart/form-data">
-                    <label>상품명</label>
-                    <input type="text" name="itemName" th:field="*{itemName}">
-                    <div class="field_err" th:errors="*{itemName}"></div>
-                    <label>상품 내용</label>
-                    <textarea th:field="*{content}"></textarea>
-                    <label>가격</label>
-                    <input name="price" th:field="*{price}">
-                    <div class="field_err" th:errors="*{price}"></div>
-                    <label>수량</label>
-                    <input name="quantity" th:field="*{stockQuantity}">
-                    <div class="field_err" th:errors="*{stockQuantity}"></div>
-                    <div>
-                        <input type="radio" name="DType" id="B" value="B">
+            <section class="main_section">
+                <form class="main_container" action="itemList.html" th:action th:object="${item}" method="post" enctype="multipart/form-data">
+                    <div class="field_err" th:if="${#strings.equals(itemNameError, 'true')}">상품명은 30글자 미만으로만 입력 가능합니다.</div>
+                    <div class="inside_box">
+                        <label>상품명</label>
+                        <input type="text" name="itemName" th:field="*{itemName}">
+                    </div>
+                    <div class="inside_box">
+                        <label>상품 내용</label>
+                        <textarea th:field="*{content}"></textarea>
+                    </div>
+                    <div class="field_err" th:if="${#strings.equals(priceError, 'true')}">가격은 음수이거나 정수가 아닌 유리수(ex. 분수)일 수 없습니다.</div>
+                    <div class="inside_box">
+                        <label>가격</label>
+                        <input name="price" th:field="*{price}">
+                    </div>
+                    <div class="field_err" th:if="${#strings.equals(quantityError, 'true')}">상품 수량은 음수이거나 정수가 아닌 유리수(ex. 분수)일 수 없습니다.</div>
+                    <div class="inside_box">
+                        <label>수량</label>
+                        <input name="quantity" th:field="*{stockQuantity}">
+                    </div>
+                    
+                    
+                
+                    
+                    <div class="radio_container">
                         <label for="B">책</label>
-                        <input type="radio" name="DType" id="L" value="L">
+                        <input class="iamRadio" type="radio" name="DType" id="B" value="B">
                         <label for="L">강의</label>
-                        <input type="radio" name="DType" id="E" value="E">
+                        <input class="iamRadio" type="radio" name="DType" id="L" value="L">
+                        <label for="E">기타</label>
+                        <input class="iamRadio" type="radio" name="DType" id="E" value="E">
                     </div>
                     <div id="optionForBook" class="hidden">
                         <label>저자</label>
@@ -51,11 +64,14 @@
                         <label>강의제공처</label>
                         <input class="inputL" type="text" name="optionB" th:field="*{optionB}">
                     </div>
-                    <label>첨부 사진</label>
-                    <input type="file" multiple="multiple" name="files">
+                    <div class="field_err" style="margin-bottom:10px;" th:if="${#strings.equals(fileError, 'true')}">사진 파일만 첨부 가능합니다.</div>
+                    <div class="inside_box">
+                        <label>첨부 사진</label>
+                        <input type="file" multiple="multiple" name="files">
+                    </div>
                     <button class="form_button" type="submit">완료</button>
                 </form>
-                <button class="form_button" onclick="location.href='itemList.html'">취소</button>
+                <button class="form_button" onclick="location.href='itemList.html'" th:onclick="@{/item?page=1}">취소</button>
             </section>
         </main>
     </body>

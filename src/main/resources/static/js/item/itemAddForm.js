@@ -1,5 +1,6 @@
 const radioB = document.getElementById("B");
 const radioL = document.getElementById("L");
+const radioE = document.getElementById("E");
 let target = null;
 
 radioB.addEventListener("click", () => {
@@ -10,13 +11,20 @@ radioL.addEventListener("click", () => {
   whoisChecked();
 });
 
+radioE.addEventListener("click", () => {
+  whoisChecked();
+});
+
 function whoisChecked() {
   if (radioB.checked) {
     radioBIsOn();
     radioLIsOff();
-  } else {
+  } else if (radioL.checked) {
     radioLIsOn();
     radioBIsOff();
+  } else {
+    radioBIsOff();
+    radioLIsOff();
   }
 }
 
