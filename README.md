@@ -42,4 +42,4 @@
 
 ## SOGI SHOP의 ERD 및 UML
 
-![엔티티 UML](https://user-images.githubusercontent.com/88177646/150324037-837f4832-79c4-4743-9479-fbc2248b62f6.jpg)
+![엔티티 UML](https://user-images.githubusercontent.com/88177646/150324602-a3a9dd38-d04c-4ec1-97d8-c24042d6126b.jpg)
