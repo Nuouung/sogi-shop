@@ -40,6 +40,6 @@
 
 
 
-## SOGI SHOP의 ERD 및 UML
+## SOGI SHOP의 UML
 
 ![엔티티 UML](https://user-images.githubusercontent.com/88177646/150324602-a3a9dd38-d04c-4ec1-97d8-c24042d6126b.jpg)
