@@ -13,7 +13,7 @@ public class OrderValidator {
     public void BookOrderValidate(ItemDetailOrderDto orderDto, BindingResult bindingResult) {
         // 위의 주석처럼, 이곳에 넘어오는 orderQuantity는 정수다. 즉 음의정수, 0, 양의정수
         // 갯수 0을 주문했다는 것은 의미가 없으니, 음의정수와 0을 에러로 치환해야 한다.
-        if (orderDto.getCategory().equals(ItemConst.BOOK)) {
+        if (orderDto.getCategory().equals("책")) {
             if (orderDto.getOrderItemQuantity() <= 0) {
                 bindingResult.addError(new ObjectError("quantityError", "상품은 1 이상의 정수만 입력 가능합니다."));
             }
