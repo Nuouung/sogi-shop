@@ -22,7 +22,7 @@ public class OrderController {
     @PostMapping("/item/order")
     public String order(@ModelAttribute ItemDetailOrderDto orderDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         // 책의 수량이 음수이거나, 0이거나, 정수가 아닌 유리수일 때 bindingResult에 에러가 담긴다.
-        orderValidator.BookOrderValidate(orderDto.getOrderItemQuantity(), bindingResult);
+        orderValidator.BookOrderValidate(orderDto, bindingResult);
         if (bindingResult.hasErrors()) {
             redirectAttributes.addAttribute("quantityError", "수량은 1 이상의 정수만 입력 가능합니다.");
             return "redirect:/item/detail/" + orderDto.getItemId();

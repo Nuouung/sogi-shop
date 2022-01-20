@@ -46,10 +46,11 @@
                   <input type="hidden" value="330000" name="itemPrice" th:value="${item.price}">
                     <input type="hidden" name="email" th:value="${#session.getAttribute('loginMember').email}">
                     <input type="hidden" name="itemId" th:value="${item.id}">
+                        <input type="hidden" name="category" th:value="${item.category}">
                         <div class="field_err" style="margin-bottom:10px;" th:if="${quantityError}" th:text="${quantityError}"></div>
                         <div class="itemQuantity" th:if="${#strings.equals(item.category, '책')}">주문 수량</div>
                         <input class="itemQuantity" th:if="${#strings.equals(item.category, '책')}" name="orderItemQuantity" placeholder="숫자 1 이상의 정수를 입력해주세요.">
-                  <button type="submit">구매하기</button>
+                        <button type="submit">구매하기</button>
                   <div class="payment_info">
                     ※ 위 결제는 실제 발생되는 결제가 아닙니다.
                   </div>
