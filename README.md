@@ -124,18 +124,18 @@ SOGI SHOP에서 카테고리는 책, 강의, 기타로 각각의 카테고리를
 
 ```java
 Map<String, Object> itemMap = null;
-        switch (type) {
-            case "main":
-                itemMap = itemRepository.findPage(indexes[0], indexes[1]);
-                break;
-            case ItemConst.BOOK:
-                itemMap = itemRepository.findPageWhereBook(indexes[0], indexes[1]);
-                break;
-            case ItemConst.LECTURE:
-                itemMap = itemRepository.findPageWhereLecture(indexes[0], indexes[1]);
-                break;
-            case ItemConst.ETC:
-                itemMap = itemRepository.findPageWhereEtc(indexes[0], indexes[1]);
+switch (type) {
+        case "main":
+            itemMap = itemRepository.findPage(indexes[0], indexes[1]);
+            break;
+        case ItemConst.BOOK:
+            itemMap = itemRepository.findPageWhereBook(indexes[0], indexes[1]);
+            break;
+        case ItemConst.LECTURE:
+            itemMap = itemRepository.findPageWhereLecture(indexes[0], indexes[1]);
+            break;
+        case ItemConst.ETC:
+            itemMap = itemRepository.findPageWhereEtc(indexes[0], indexes[1]);
         }
 ```
 
