@@ -60,10 +60,6 @@
     margin-bottom: 50px;
 }
 
-li {
-    letter-spacing: 1px;
-}
-
 .payment_area {
   display: flex;
   flex-direction: column;

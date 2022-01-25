@@ -73,3 +73,8 @@
 .review_container {
   display: flex;
 }
+
+.page_main_container {
+  display: flex;
+  justify-content: center;
+}
