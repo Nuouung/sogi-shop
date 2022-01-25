@@ -123,7 +123,8 @@ private boolean maliciousClientApproachCatcher(String optionA, String optionB) {
 SOGI SHOP에서 카테고리는 책, 강의, 기타로 각각의 카테고리를 캐치할 수 있는 switch문을 ItemService 내에 배치했습니다.
 
 ```java
-switch (type) {
+Map<String, Object> itemMap = null;
+        switch (type) {
             case "main":
                 itemMap = itemRepository.findPage(indexes[0], indexes[1]);
                 break;
