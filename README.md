@@ -39,6 +39,104 @@
 
 
 
+## 프로젝트 상세
+
+
+### 아키텍처
+
+![화면 캡처 2022-01-25 115322](https://user-images.githubusercontent.com/88177646/150902284-6fa7e4d4-92ed-43b0-bf5b-4409a195d1e3.jpg)
+
+
+
+### 페이징
+
+```java
+@Component
+public class PagingManager <T> {
+
+    public int[] getPageIndexes(int queryParam) {
+        ...
+    }
+    
+    public Map<String, Object> createPage(List<T> tempList, List<T> resultList) {
+        ...
+    }
+    
+    public void storePageToModel(Map<String, Object> pageMap, int page, Model model) {
+        ...
+    }
+    
+}
+```
+
+* PagingManager은 페이징 기능을 총괄하는 클래스로 페이징 기능이 필요한 클래스는 이 클래스를 호출하여 페이징 기능을 구현할 수 있습니다.
+* PagingManager에 들어가는 데이터 타입을 제네릭으로 설정해두었기 때문에 데이터타입에 제한받지 않는 구현이 가능합니다.
+* PagingManger에는 총 세 메소드가 존재하며 각각의 메소드는 위에서부터 차례로 service, repository, controller에서 호출이 가능합니다.
+
+
+### 프로젝트 내 검증 기능
+
+* 회원가입
+  * 회원의 이름은 빈 값일 수 없고, 10글자를 초과할 수 없습니다.
+  * 회원의 비밀번호는 빈 값일 수 없고, 6글자 미만으로 설정할 수 없습니다.
+  * 아이디는 중복되지 않습니다.
+
+* 파일
+  * 파일은 사진만 업로드 가능합니다.
+  * 허용되는 확장자는 jpg, png, jpeg, bmg, gif입니다.
+
+* 상품
+  * 상품명은 최소 1자, 최대 29자로 설정 가능합니다.
+  * 상품가격은 0 이상의 정수만 설정 가능합니다.
+  * 상품갯수는 0 이상의 정수만 설정 가능합니다.
+  * 혹, 웹브라우저의 자바스크립트를 조작하여 악의적인 접근을 하는 사용자가 있을 경우, 이를 검증하기 위해 ItemController 클래스 내 maliciousClientApproachCatcher 메소드가 존재합니다.
+
+```java
+// optionA와 optionB는 두개일 수 없습니다.
+// 이 메소드는 optionA와 optionB가 두개 이상 들어왔는지 검증합니다.
+private boolean maliciousClientApproachCatcher(String optionA, String optionB) {
+        int indexA = optionA.lastIndexOf(",");
+        int indexB = optionB.lastIndexOf(",");
+        int lastIndexA = optionA.length() - 1;
+        int lastIndexB = optionB.length() - 1;
+
+        // 가능한 String 형태
+        // 1. [정상 접근] xxxx,
+        // 2. [정상 접근] ,xxxx
+        // 3. [비정상 접근] xxxx,xxxx
+        if ((indexA != 0 && indexA != lastIndexA) ||
+                (indexB != 0 && indexB != lastIndexB)) {
+            log.warn("MALICIOUS APPROACH DETECTED");
+            return true;
+        }
+        return false;
+    }
+```
+
+* 주문
+  * 주문갯수는 0 이상, 50 이하의 정수만 설정 가능합니다.
+
+
+### 카테고리 기능
+
+카테고리 기능은 기본적으로 페이징 기능과 엮여서 동작합니다.
+SOGI SHOP에서 카테고리는 책, 강의, 기타로 각각의 카테고리를 캐치할 수 있는 switch문을 ItemService 내에 배치했습니다.
+
+```java
+switch (type) {
+            case "main":
+                itemMap = itemRepository.findPage(indexes[0], indexes[1]);
+                break;
+            case ItemConst.BOOK:
+                itemMap = itemRepository.findPageWhereBook(indexes[0], indexes[1]);
+                break;
+            case ItemConst.LECTURE:
+                itemMap = itemRepository.findPageWhereLecture(indexes[0], indexes[1]);
+                break;
+            case ItemConst.ETC:
+                itemMap = itemRepository.findPageWhereEtc(indexes[0], indexes[1]);
+        }
+```
 
 ## SOGI SHOP의 UML
 
