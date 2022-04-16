@@ -119,7 +119,7 @@ private boolean maliciousClientApproachCatcher(String optionA, String optionB) {
 
 ### 카테고리 기능
 
-카테고리 기능은 기본적으로 페이징 기능과 엮여서 동작합니다.
+카테고리 기능은 기본적으로 페이징 기능과 엮여져 동작합니다.
 SOGI SHOP에서 카테고리는 책, 강의, 기타로 각각의 카테고리를 캐치할 수 있는 switch문을 ItemService 내에 배치했습니다.
 
 ```java
